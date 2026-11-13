@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem 2: Pocket Rubik's Cube & State-Space Search Lab Report</title>
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card-bg: #111827;
+            --border: #1f2937;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --primary: #38bdf8;
+            --v2: #ef4444;
+            --v3: #f59e0b;
+            --v4: #10b981;
+            --v5: #3b82f6;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            padding: 32px 16px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 48px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 32px;
+        }
+        h1 {
+            font-size: 2.2rem;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            color: var(--primary);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        .badge-bar {
+            margin-top: 16px;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .badge {
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #cbd5e1;
+        }
+        .badge.success {
+            background: #064e3b;
+            border-color: #059669;
+            color: #a7f3d0;
+        }
+        section {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+        h2 {
+            font-size: 1.4rem;
+            color: #ffffff;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+            margin-top: 0;
+        }
+        h3 {
+            color: var(--primary);
+            font-size: 1.15rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.95rem;
+        }
+        th, td {
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            text-align: left;
+        }
+        th {
+            background: #1e293b;
+            color: #e2e8f0;
+        }
+        tr:nth-child(even) {
+            background: #0f172a;
+        }
+        .code-box {
+            background: #030712;
+            border: 1px solid #1f2937;
+            border-radius: 8px;
+            padding: 16px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            color: #e2e8f0;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+        }
+        .plot-container {
+            text-align: center;
+            background: #030712;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #1e293b;
+        }
+        .plot-container img, .plot-container svg {
+            max-width: 100%;
+            height: auto;
+        }
+        .formula {
+            background: #1e1b4b;
+            border: 1px solid #4338ca;
+            padding: 12px 18px;
+            border-radius: 8px;
+            color: #e0e7ff;
+            margin: 12px 0;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Problem 2: Pocket Rubik's Cube & State-Space Search</h1>
+        <div class="subtitle">Complete Empirical Benchmarking & Theoretical Analysis Lab Report</div>
+        <div class="badge-bar">
+            <span class="badge success">Verification Suite: 20/20 PASSED</span>
+            <span class="badge">State Space: |V| = 3,674,160</span>
+            <span class="badge">Branching Factor: b = 6 &rarr; b_eff &asymp; 4</span>
+            <span class="badge">Optimal Solvers: V2, V3, V4, V5</span>
+        </div>
+    </header>
+
+    <!-- Theoretical Analysis Part A -->
+    <section>
+        <h2>Part A: Exact Move Mechanics, Hand Trace & Orientation Invariant</h2>
+        <h3>Q1. Hand-Worked Tuple Trace: R &rarr; U &rarr; R'</h3>
+        <p>Starting from solved state <code>s0 = (perm=(0,1,2,3,4,5,6), orient=(0,0,0,0,0,0,0))</code>:</p>
+        <div class="code-box">
+1. Move R (Right face clockwise (1, 2, 6, 5)):
+   Slots (1,2,6,5) receive cubies (5,1,2,6) with deltas (+1, +2, +1, +2) mod 3.
+   s1 = (perm=(0, 5, 1, 3, 4, 6, 2), orient=(0, 1, 2, 0, 0, 2, 1))
+   Orientation Sum: 1 + 2 + 2 + 1 = 6 &equiv; 0 (mod 3).
+
+2. Move U (Up face clockwise (0, 3, 2, 1)):
+   Slots (0,3,2,1) receive cubies (1,0,3,2) with deltas (0, 0, 0, 0).
+   s2 = (perm=(5, 0, 1, 3, 4, 6, 2), orient=(1, 0, 2, 0, 0, 2, 1))
+   Orientation Sum: 1 + 2 + 2 + 1 = 6 &equiv; 0 (mod 3).
+
+3. Move R' (Right face counter-clockwise (1, 2, 6, 5)):
+   Slots (1,2,6,5) receive cubies (2,6,5,1) with deltas (+1, +2, +1, +2) mod 3.
+   s3 = (perm=(5, 1, 2, 3, 4, 0, 6), orient=(1, 0, 0, 0, 0, 2, 0))
+   Orientation Sum: 1 + 2 = 3 &equiv; 0 (mod 3).
+        </div>
+
+        <h3>Q2. Orientation Twist Invariant Proof</h3>
+        <div class="formula">
+            &sum;<sub>i=0</sub><sup>6</sup> o<sub>i</sub> &equiv; 0 &pmod; 3 is an invariant preserved under all legal moves.
+        </div>
+        <p><strong>Proof:</strong></p>
+        <ul>
+            <li>In the solved state <code>s0</code>, all orientations are 0, so &sum; o<sub>i</sub> = 0 &equiv; 0 (mod 3).</li>
+            <li>U and U' moves do not alter any corner orientations (&Delta; = 0).</li>
+            <li>R, R', F, and F' moves add deltas (+1, +2, +1, +2) to 4 corners. The total sum change is &Delta;<sub>sum</sub> = 1 + 2 + 1 + 2 = 6 = 2 &times; 3 &equiv; 0 (mod 3).</li>
+            <li>By mathematical induction, every reachable state must have &sum; o<sub>i</sub> &equiv; 0 (mod 3).</li>
+        </ul>
+        <p><strong>Single Corner Twist Impossibility:</strong> If a corner is physically popped and twisted by +1 (orient sum = 1 &equiv; 1 mod 3), no sequence of legal moves can ever change the orientation sum modulo 3. Because the solved state has sum 0 &equiv; 0 mod 3, it lives in a completely disjoint connected component of the state space. Therefore, BFS will search the entire component of 3.67M states without ever finding a path to solved.</p>
+    </section>
+
+    <!-- Part B: Branching Factor Pruning & Bidirectional BFS -->
+    <section>
+        <h2>Part B: Branching Factor Pruning & Bidirectional Meet-in-the-Middle</h2>
+        <h3>Q3. Quantifying Frontier Collapse (d = 12)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Search Stage</th>
+                    <th>Frontier Formula</th>
+                    <th>Numerical Paths at d=12</th>
+                    <th>Speedup vs Stage 2</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Stage 2 (Unpruned BFS, b=6)</strong></td>
+                    <td>N<sub>2</sub> = 6<sup>12</sup></td>
+                    <td>2,176,782,336</td>
+                    <td>1.0&times; (baseline)</td>
+                </tr>
+                <tr>
+                    <td><strong>Stage 3 (Face-Pruned BFS, b<sub>eff</sub>=4)</strong></td>
+                    <td>N<sub>3</sub> = 6 &times; 4<sup>11</sup></td>
+                    <td>25,165,824</td>
+                    <td><strong>86.5&times;</strong> faster</td>
+                </tr>
+                <tr>
+                    <td><strong>Stage 4 (Bidirectional BFS, d/2=6)</strong></td>
+                    <td>N<sub>4</sub> = 2 &times; (6 &times; 4<sup>5</sup>)</td>
+                    <td><strong>12,288</strong></td>
+                    <td><strong>177,147&times; faster!</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Q4. Bidirectional Path Stitching & Inversion</h3>
+        <p>When the forward search from <code>s_start</code> meets the backward search from <code>s_goal</code> at meeting state <code>s*</code>:</p>
+        <ul>
+            <li>Forward path: <code>s_start &rarr; s*</code> follows move sequence <code>P_fwd</code>.</li>
+            <li>Backward path: generated from <code>s_goal &rarr; s*</code> applying moves <code>(m_1, m_2, ..., m_k)</code>.</li>
+            <li>To travel from <code>s*</code> back to <code>s_goal</code>, one must retrace the steps in reverse chronological order and undo each operation: <code>(m_k<sup>-1</sup>, ..., m_1<sup>-1</sup>)</code>.</li>
+        </ul>
+    </section>
+
+    <!-- Part C: Complexity Ladder -->
+    <section>
+        <h2>Part C: Theoretical Complexity Ladder</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Algorithm Stage</th>
+                    <th>Primary Data Structure in RAM</th>
+                    <th>Time Complexity</th>
+                    <th>Peak Memory Complexity</th>
+                    <th>Optimal Shortest Path?</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>V1: Naive 24-Sticker DFS</strong></td>
+                    <td>24-Sticker Array + Recursion Stack (No visited set, no depth cap)</td>
+                    <td>O(b<sup>D</sup>) (Infinite / Cyclic)</td>
+                    <td>O(D) Stack Depth</td>
+                    <td>No (gets trapped in cycles, times out without visited set)</td>
+                </tr>
+                <tr>
+                    <td><strong>V2: Unidirectional BFS</strong></td>
+                    <td>FIFO Queue + Visited Hash Map</td>
+                    <td>O(b<sup>d</sup>)</td>
+                    <td>O(b<sup>d</sup>)</td>
+                    <td><strong>Yes</strong> (guaranteed shortest path)</td>
+                </tr>
+                <tr>
+                    <td><strong>V3: Move-Pruned BFS</strong></td>
+                    <td>FIFO Queue + Same-Face History</td>
+                    <td>O(b &times; b<sub>eff</sub><sup>d-1</sup>)</td>
+                    <td>O(b &times; b<sub>eff</sub><sup>d-1</sup>)</td>
+                    <td><strong>Yes</strong> (preserves all optimal paths)</td>
+                </tr>
+                <tr>
+                    <td><strong>V4: Bidirectional BFS</strong></td>
+                    <td>2&times; FIFO Queues + 2&times; Hash Maps</td>
+                    <td>O(2 &times; b<sub>eff</sub><sup>d/2</sup>)</td>
+                    <td>O(2 &times; b<sub>eff</sub><sup>d/2</sup>)</td>
+                    <td><strong>Yes</strong> (with full-level synchronization)</td>
+                </tr>
+                <tr>
+                    <td><strong>V5: IDA*</strong></td>
+                    <td>Recursion Stack + Heuristic h(s)</td>
+                    <td>O(b<sup>d</sup>)</td>
+                    <td><strong>O(d)</strong></td>
+                    <td><strong>Yes</strong> (admissible heuristic h(s) &le; h*(s))</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Part D: Benchmark Plots -->
+    <section>
+        <h2>Part D: Empirical Benchmarking & Generated Plots</h2>
+        <div class="grid-2">
+            <div class="plot-container">
+                <h3>Plot 1: States Expanded vs. Depth d (Log10)</h3>
+                <img src="plot1_expanded_states.svg" alt="Plot 1: States Expanded">
+                <p style="color:var(--text-muted); font-size:0.85rem; margin-top:8px;">
+                    Notice how V4 (Bidirectional BFS) collapses expanded states from millions down to hundreds at depth 6-10.
+                </p>
+            </div>
+            <div class="plot-container">
+                <h3>Plot 2: Peak Memory Footprint vs. Depth d</h3>
+                <img src="plot2_peak_memory.svg" alt="Plot 2: Peak Memory Footprint">
+                <p style="color:var(--text-muted); font-size:0.85rem; margin-top:8px;">
+                    V5 (IDA*) maintains a tiny O(d) memory footprint (~2 KB), conquering the RAM explosion of V2 and V3.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Verification Suite Table -->
+    <section>
+        <h2>Verification Suite Results (20 Random Test Cases)</h2>
+        <p>All four optimal algorithms (V2, V3, V4, V5) were verified across 20 random scrambles at depths 1&ndash;6:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Scramble Depth</th>
+                    <th>Optimal Length d*</th>
+                    <th>V2 Time</th>
+                    <th>V3 Time</th>
+                    <th>V4 Time</th>
+                    <th>V5 Time</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>1</td>
+                    <td>d = 1</td>
+                    <td><strong>1</strong></td>
+                    <td>0.4 ms</td>
+                    <td>0.2 ms</td>
+                    <td style="color:var(--v4); font-weight:600;">0.2 ms</td>
+                    <td style="color:var(--v5); font-weight:600;">0.5 ms</td>
+                    <td><span style="color:#10b981; font-weight:bold;">PASS</span></td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>d = 2</td>
+                    <td><strong>2</strong></td>
+                    <td>0.4 ms</td>
+                    <td>0.2 ms</td>
+                    <td style="color:var(--v4); font-weight:600;">0.3 ms</td>
+                    <td style="color:var(--v5); font-weight:600;">0.2 ms</td>
+                    <td><span style="color:#10b981; font-weight:bold;">PASS</span></td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td>d = 3</td>
+                    <td><strong>3</strong></td>
+                    <td>6.1 ms</td>
+                    <td>2.8 ms</td>
+                    <td style="color:var(--v4); font-weight:600;">0.8 ms</td>
+                    <td style="color:var(--v5); font-weight:600;">1.5 ms</td>
+                    <td><span style="color:#10b981; font-weight:bold;">PASS</span></td>
+                </tr>
+
+                <tr>
+                    <td>4</td>
+                    <td>d = 4</td>
+                    <td><strong>4</strong></td>
+                    <td>11.7 ms</td>
+                    <td>5.3 ms</td>
+                    <td style="color:var(--v4); font-weight:600;">1.3 ms</td>
+                    <td style="color:var(--v5); font-weight:600;">3.3 ms</td>
+                    <td><span style="color:#10b981; font-weight:bold;">PASS</span></td>
+                </tr>
+
+                <tr>
+                    <td>5</td>
+                    <td>d = 5</td>
+                    <td><strong>5</strong></td>
+                    <td>55.8 ms</td>
+                    <td>20.5 ms</td>
+                    <td style="color:var(--v4); font-weight:600;">3.3 ms</td>
+                    <td style="color:var(--v5); font-weight:600;">9.2 ms</td>
+                    <td><span style="color:#10b981; font-weight:bold;">PASS</span></td>
+                </tr>
+
+                <tr>
+                    <td>6</td>
+                    <td>d = 6</td>
+                    <td><strong>6</strong></td>
+                    <td>240.8 ms</td>
+                    <td>99.8 ms</td>
+                    <td style="color:var(--v4); font-weight:600;">5.3 ms</td>
+                    <td style="color:var(--v5); font-weight:600;">38.5 ms</td>
+                    <td><span style="color:#10b981; font-weight:bold;">PASS</span></td>
+                </tr>
+
+                <tr>
+                    <td>7</td>
+                    <td>d = 1</td>
+                    <td><strong>1</strong></td>
+                    <td>0.1 ms</td>
+                    <td>0.1 ms</td>
+                    <td style="color:var(--v4); font-weight:600;">0.1 ms</td>
+                    <td style="color:var(--v5); font-weight:600;">0.1 ms</td>
+                    <td><span style="color:#10b981; font-weight:bold;">PASS</span></td>
+                </tr>
+
+                <tr>
+                    <td>8</td>
+                    <td>d = 2</td>
+                    <td><strong>2</strong></td>
+                    <td>0.3 ms</td>
+                    <td>0.2 ms</td>
+                    <td style="color:var(--v4); font-weight:600;">0.2 ms</td>
+                    <td style="color:var(--v5); font-weight:600;">0.2 ms</td>
+                    <td><span style="color:#10b981; font-weight:bold;">PASS</span></td>
+                </tr>
+
+                <tr>
+                    <td>9</td>
+                    <td>d = 3</td>
+                    <td><strong>3</strong></td>
+                    <td>2.8 ms</td>
+                    <td>1.4 ms</td>
+                    <td style="color:var(--v4); font-weight:600;">0.7 ms</td>
+                    <td style="color:var(--v5); font-weight:600;">1.0 ms</td>
+                    <td><span style="color:#10b981; font-weight:bold;">PASS</span></td>
+                </tr>
+
+                <tr>
+                    <td>10</td>
+                    <td>d = 4</td>
+                    <td><strong>4</strong></td>
+                    <td>21.7 ms</td>
+                    <td>9.5 ms</td>
+                    <td style="color:var(--v4); font-weight:600;">1.1 ms</td>
+                    <td style="color:var(--v5); font-weight:600;">5.0 ms</td>
+                    <td><span style="color:#10b981; font-weight:bold;">PASS</span></td>
+                </tr>
+
+                <tr>
+                    <td>11</td>
+                    <td>d = 5</td>
+                    <td><strong>5</strong></td>
+                    <td>27.9 ms</td>
+                    <td>11.1 ms</td>
+                    <td style="color:var(--v4); font-weight:600;">3.2 ms</td>
+                    <td style="color:var(--v5); font-weight:600;">5.9 ms</td>
+                    <td><span style="color:#10b981; font-weight:bold;">PASS</span></td>
+                </tr>
+
+                <tr>
+                    <td>12</td>
+                    <td>d = 6</td>
+                    <td><strong>6</strong></td>
+                    <td>131.7 ms</td>
+                    <td>48.4 ms</td>
+                    <td style="color:var(--v4); font-weight:600;">5.3 ms</td>
+                    <td style="color:var(--v5); font-weight:600;">20.5 ms</td>
+                    <td><span style="color:#10b981; font-weight:bold;">PASS</span></td>
+                </tr>
+
+                <tr>
+                    <td>13</td>
+                    <td>d = 1</td>
+                    <td><strong>1</strong></td>
+                    <td>0.1 ms</td>
+                    <td>0.1 ms</td>
+                    <td style="color:var(--v4); font-weight:600;">0.1 ms</td>
+                    <td style="color:var(--v5); font-weight:600;">0.1 ms</td>
+                    <td><span style="color:#10b981; font-weight:bold;">PASS</span></td>
+                </tr>
+
+                <tr>
+                    <td>14</td>
+                    <td>d = 2</td>
+                    <td><strong>2</strong></td>
+                    <td>1.0 ms</td>
+                    <td>0.6 ms</td>
+                    <td style="color:var(--v4); font-weight:600;">0.2 ms</td>
+                    <td style="color:var(--v5); font-weight:600;">0.4 ms</td>
+                    <td><span style="color:#10b981; font-weight:bold;">PASS</span></td>
+                </tr>
+
+                <tr>
+                    <td>15</td>
+                    <td>d = 3</td>
+                    <td><strong>3</strong></td>
+                    <td>2.4 ms</td>
+                    <td>1.4 ms</td>
+                    <td style="color:var(--v4); font-weight:600;">0.7 ms</td>
+                    <td style="color:var(--v5); font-weight:600;">0.8 ms</td>
+                    <td><span style="color:#10b981; font-weight:bold;">PASS</span></td>
+                </tr>
+
+                <tr>
+                    <td>16</td>
+                    <td>d = 4</td>
+                    <td><strong>4</strong></td>
+                    <td>21.2 ms</td>
+                    <td>9.4 ms</td>
+                    <td style="color:var(--v4); font-weight:600;">1.2 ms</td>
+                    <td style="color:var(--v5); font-weight:600;">4.7 ms</td>
+                    <td><span style="color:#10b981; font-weight:bold;">PASS</span></td>
+                </tr>
+
+                <tr>
+                    <td>17</td>
+                    <td>d = 5</td>
+                    <td><strong>5</strong></td>
+                    <td>57.3 ms</td>
+                    <td>23.3 ms</td>
+                    <td style="color:var(--v4); font-weight:600;">3.2 ms</td>
+                    <td style="color:var(--v5); font-weight:600;">11.3 ms</td>
+                    <td><span style="color:#10b981; font-weight:bold;">PASS</span></td>
+                </tr>
+
+                <tr>
+                    <td>18</td>
+                    <td>d = 6</td>
+                    <td><strong>6</strong></td>
+                    <td>195.9 ms</td>
+                    <td>75.9 ms</td>
+                    <td style="color:var(--v4); font-weight:600;">5.4 ms</td>
+                    <td style="color:var(--v5); font-weight:600;">30.9 ms</td>
+                    <td><span style="color:#10b981; font-weight:bold;">PASS</span></td>
+                </tr>
+
+                <tr>
+                    <td>19</td>
+                    <td>d = 1</td>
+                    <td><strong>1</strong></td>
+                    <td>0.1 ms</td>
+                    <td>0.1 ms</td>
+                    <td style="color:var(--v4); font-weight:600;">0.1 ms</td>
+                    <td style="color:var(--v5); font-weight:600;">0.1 ms</td>
+                    <td><span style="color:#10b981; font-weight:bold;">PASS</span></td>
+                </tr>
+
+                <tr>
+                    <td>20</td>
+                    <td>d = 2</td>
+                    <td><strong>2</strong></td>
+                    <td>0.7 ms</td>
+                    <td>0.4 ms</td>
+                    <td style="color:var(--v4); font-weight:600;">0.2 ms</td>
+                    <td style="color:var(--v5); font-weight:600;">0.3 ms</td>
+                    <td><span style="color:#10b981; font-weight:bold;">PASS</span></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </section>
+</div>
+</body>
+</html>

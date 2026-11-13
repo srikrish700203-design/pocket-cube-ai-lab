@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pocket Cube AI Lab — 2×2 State-Space Search & Interactive 3D Solver</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "./vendor/three.module.js",
+      "three/addons/controls/OrbitControls.js": "./vendor/OrbitControls.js"
+    }
+  }
+  </script>
+</head>
+<body>
+  <header>
+    <div class="logo-group">
+      <h1>Pocket Cube AI Lab</h1>
+      <p>Problem 2: 2×2 Rubik's Cube &amp; State-Space Search (V1 &rarr; V5) with Shared Scramble &amp; Independent Sessions</p>
+    </div>
+    <nav class="nav-tabs">
+      <button class="tab-btn active" data-tab="lab">Interactive 3D Lab</button>
+      <button class="tab-btn" data-tab="compare">Compare Solvers</button>
+      <button class="tab-btn" data-tab="history">SQLite History</button>
+      <button class="tab-btn" data-tab="benchmarks">Empirical Benchmark &amp; Plots</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- TAB 1: INTERACTIVE LAB -->
+    <div id="tab-lab" class="tab-content active">
+
+      <!-- TOP SECTION: SHARED SCRAMBLE & EXPERIMENT CONTROLS -->
+      <div class="shared-scramble-banner">
+        <div class="banner-top-row">
+          <div class="banner-title">
+            <span>🔬 Shared Experiment:</span>
+            <span class="banner-exp-badge" id="exp-id-badge">exp_loading...</span>
+            <span style="font-size:0.75rem; color:var(--text-muted); font-weight:normal;">(Common starting state for V1, V2, V3, V4, and V5)</span>
+          </div>
+
+          <div style="display:flex; gap:8px; align-items:center;">
+            <button id="exp-history-btn" class="btn" style="padding:4px 10px; font-size:0.8rem;" title="View and switch between previous experiments in SQLite">📁 Saved Experiments</button>
+            <button id="reset-exp-btn" class="btn btn-danger" style="padding:4px 10px; font-size:0.8rem;" title="Clear experiment and start fresh">↺ Reset Experiment</button>
+          </div>
+        </div>
+
+        <div class="banner-moves-row">
+          <div class="banner-move-box">
+            <div class="banner-move-box-title">
+              <span>Shared Scramble Sequence</span>
+              <span style="color:var(--accent);">Original State</span>
+            </div>
+            <div class="banner-move-seq" id="shared-scramble-display">—</div>
+          </div>
+
+          <div class="banner-move-box">
+            <div class="banner-move-box-title">
+              <span>Mathematical Inverse Reference (Undo Scramble)</span>
+              <span style="color:#a78bfa;">Reference Only</span>
+            </div>
+            <div class="banner-move-seq" id="shared-inverse-display" style="color:#c4b5fd;">—</div>
+            <div style="font-size:0.72rem; color:var(--text-muted); margin-top:3px;">
+              * Educational undo reference &mdash; genuine AI solvers execute independent state-space search.
+            </div>
+          </div>
+        </div>
+
+        <!-- Scramble Generators Bar -->
+        <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-top:4px;">
+          <div class="slider-container" style="max-width:280px;">
+            <label for="scramble-depth-input" style="font-size:0.85rem; white-space:nowrap;">Depth: <span id="depth-display" style="font-weight:bold; color:var(--accent);">5</span></label>
+            <input type="range" id="scramble-depth-input" min="1" max="11" value="5">
+          </div>
+          <button id="new-random-scramble-btn" class="btn btn-primary" style="padding:6px 14px; font-size:0.85rem;">🎲 New Random Scramble</button>
+          
+          <div class="seq-input-bar" style="flex:1; min-width:240px;">
+            <input type="text" id="custom-scramble-input" placeholder="Custom scramble: e.g. R U R' F U' R" spellcheck="false" style="padding:6px 10px; font-size:0.85rem;">
+            <button id="apply-custom-scramble-btn" class="btn" style="padding:6px 12px; font-size:0.85rem; white-space:nowrap;">Set Scramble</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="lab-grid">
+        <!-- LEFT: 3D CUBE VISUALIZER & DIRECT CONTROLS -->
+        <div class="card">
+          <div class="card-title">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span id="active-algo-cube-title">V4 Cube State</span>
+              <div id="cube-status-badge" class="status-badge solved">
+                <span class="status-dot"></span>
+                <span id="cube-status-text">Solved</span>
+              </div>
+            </div>
+            <button id="reset-camera-btn" class="btn" style="padding:4px 8px; font-size:0.8rem;" title="Reset 3D camera to default perspective">🎥 Reset Camera</button>
+          </div>
+
+          <!-- 3D WebGL Canvas Stage -->
+          <div style="position:relative;">
+            <div id="cube-3d-container"></div>
+            <div class="stage-hint" style="margin-top:6px;">
+              <span>🖱️ <strong>Left-Click &amp; Drag</strong> to orbit</span>
+              <span>•</span>
+              <span>📜 <strong>Scroll</strong> to zoom</span>
+              <span>•</span>
+              <span>🔍 Inspect all 6 faces freely</span>
+            </div>
+          </div>
+
+          <!-- Manual Quarter-Turn Buttons (All 12 Face Turns) -->
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span class="move-btn-group-label">Manual Quarter-Turns (All 12 Face Turns)</span>
+              <div style="display:flex; gap:6px;">
+                <button id="undo-btn" class="btn" style="padding:4px 10px; font-size:0.8rem;" disabled title="Undo last manual move (Z)">↶ Undo</button>
+                <button id="redo-btn" class="btn" style="padding:4px 10px; font-size:0.8rem;" disabled title="Redo manual move (Y)">↷ Redo</button>
+              </div>
+            </div>
+
+            <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px;">
+              Primary Face Turns (U, R, F):
+            </div>
+            <div class="move-btn-grid" style="margin-bottom:8px;">
+              <button class="btn" data-move="U" title="Up face Clockwise (U)">U</button>
+              <button class="btn" data-move="U'" title="Up face Counterclockwise (Shift+U)">U'</button>
+              <button class="btn" data-move="R" title="Right face Clockwise (R)">R</button>
+              <button class="btn" data-move="R'" title="Right face Counterclockwise (Shift+R)">R'</button>
+              <button class="btn" data-move="F" title="Front face Clockwise (F)">F</button>
+              <button class="btn" data-move="F'" title="Front face Counterclockwise (Shift+F)">F'</button>
+            </div>
+
+            <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px;">
+              Additional Face Turns (D, L, B):
+            </div>
+            <div class="move-btn-grid" style="margin-bottom:8px;">
+              <button class="btn" data-move="D" title="Down face Clockwise (D)">D</button>
+              <button class="btn" data-move="D'" title="Down face Counterclockwise (Shift+D)">D'</button>
+              <button class="btn" data-move="L" title="Left face Clockwise (L)">L</button>
+              <button class="btn" data-move="L'" title="Left face Counterclockwise (Shift+L)">L'</button>
+              <button class="btn" data-move="B" title="Back face Clockwise (B)">B</button>
+              <button class="btn" data-move="B'" title="Back face Counterclockwise (Shift+B)">B'</button>
+            </div>
+          </div>
+
+          <!-- Secondary Collapsible 2D Unfolded Net View -->
+          <details style="background:var(--bg-panel); border:1px solid var(--border); border-radius:8px; padding:8px 12px; font-size:0.85rem;">
+            <summary style="cursor:pointer; font-weight:600; color:var(--text-muted); user-select:none;">
+              📐 Secondary View: 2D Unfolded Net
+            </summary>
+            <div class="cube-stage" style="padding-top:12px;">
+              <div class="net-container" id="cube-net">
+                <!-- Up -->
+                <div class="face-grid face-u" data-face="U">
+                  <div class="sticker" id="s-U-0"></div><div class="sticker" id="s-U-1"></div>
+                  <div class="sticker" id="s-U-2"></div><div class="sticker" id="s-U-3"></div>
+                </div>
+                <!-- Left -->
+                <div class="face-grid face-l" data-face="L">
+                  <div class="sticker" id="s-L-0"></div><div class="sticker" id="s-L-1"></div>
+                  <div class="sticker" id="s-L-2"></div><div class="sticker" id="s-L-3"></div>
+                </div>
+                <!-- Front -->
+                <div class="face-grid face-f" data-face="F">
+                  <div class="sticker" id="s-F-0"></div><div class="sticker" id="s-F-1"></div>
+                  <div class="sticker" id="s-F-2"></div><div class="sticker" id="s-F-3"></div>
+                </div>
+                <!-- Right -->
+                <div class="face-grid face-r" data-face="R">
+                  <div class="sticker" id="s-R-0"></div><div class="sticker" id="s-R-1"></div>
+                  <div class="sticker" id="s-R-2"></div><div class="sticker" id="s-R-3"></div>
+                </div>
+                <!-- Back -->
+                <div class="face-grid face-b" data-face="B">
+                  <div class="sticker" id="s-B-0"></div><div class="sticker" id="s-B-1"></div>
+                  <div class="sticker" id="s-B-2"></div><div class="sticker" id="s-B-3"></div>
+                </div>
+                <!-- Down -->
+                <div class="face-grid face-d" data-face="D">
+                  <div class="sticker" id="s-D-0"></div><div class="sticker" id="s-D-1"></div>
+                  <div class="sticker" id="s-D-2"></div><div class="sticker" id="s-D-3"></div>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <!-- Keyboard Shortcuts Info -->
+          <details style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">
+            <summary style="cursor:pointer; user-select:none;">⌨️ Keyboard Shortcuts Guide</summary>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; padding-top:6px; font-family:monospace;">
+              <div><strong>U / Shift+U</strong>: U / U'</div>
+              <div><strong>R / Shift+R</strong>: R / R'</div>
+              <div><strong>F / Shift+F</strong>: F / F'</div>
+              <div><strong>D / Shift+D</strong>: D / D'</div>
+              <div><strong>L / Shift+L</strong>: L / L'</div>
+              <div><strong>B / Shift+B</strong>: B / B'</div>
+              <div><strong>Space</strong>: Play/Pause</div>
+              <div><strong>Right Arrow</strong>: Next Move</div>
+              <div><strong>Left Arrow</strong>: Prev Move</div>
+              <div><strong>Z / Y</strong>: Undo / Redo</div>
+            </div>
+          </details>
+        </div>
+
+        <!-- RIGHT: SOLVER, PLAYBACK & 3-PART HISTORY -->
+        <div class="card">
+          <div class="card-title">
+            <span>Independent Algorithm Sessions</span>
+            <span id="backend-status" style="font-size:0.75rem; color:var(--text-muted);">Checking Python server...</span>
+          </div>
+
+          <!-- Algorithm Selector Pills with Status Badges -->
+          <div style="display:flex; flex-direction:column; gap:6px;">
+            <div style="font-size:0.85rem; font-weight:600; color:var(--text-muted); display:flex; justify-content:space-between;">
+              <span>Select Algorithm to Inspect / Solve:</span>
+              <span style="font-size:0.75rem; color:var(--accent);">Switching preserves each session independently</span>
+            </div>
+            <div class="algo-pills" id="algo-selector">
+              <div class="algo-pill" data-algo="v1">
+                <span>V1: DFS</span>
+                <span class="algo-status-badge not_started" id="status-badge-v1">Not started</span>
+              </div>
+              <div class="algo-pill" data-algo="v2">
+                <span>V2: BFS</span>
+                <span class="algo-status-badge not_started" id="status-badge-v2">Not started</span>
+              </div>
+              <div class="algo-pill" data-algo="v3">
+                <span>V3: Pruned</span>
+                <span class="algo-status-badge not_started" id="status-badge-v3">Not started</span>
+              </div>
+              <div class="algo-pill selected" data-algo="v4">
+                <span>V4: Bidi BFS</span>
+                <span class="algo-status-badge not_started" id="status-badge-v4">Not started</span>
+              </div>
+              <div class="algo-pill" data-algo="v5">
+                <span>V5: IDA*</span>
+                <span class="algo-status-badge not_started" id="status-badge-v5">Not started</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Solve Button (Solves from this session's current state) -->
+          <div style="display:flex; gap:12px;">
+            <button id="solve-btn" class="btn btn-success" style="flex:1; padding:12px; font-size:1.05rem;">
+              ⚡ Solve from Current State with Python
+            </button>
+          </div>
+
+          <!-- Metrics Panel -->
+          <div class="metrics-row">
+            <div class="metric-card">
+              <div class="metric-lbl">Execution Time</div>
+              <div class="metric-val" id="metric-time">0.0 ms</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-lbl">Expanded States</div>
+              <div class="metric-val" id="metric-expanded">0</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-lbl">Solution Moves</div>
+              <div class="metric-val" id="metric-length">0</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-lbl">Peak Memory</div>
+              <div class="metric-val" id="metric-memory">0 KB</div>
+            </div>
+          </div>
+
+          <!-- Solver Playback Controls Bar -->
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <div class="playback-controls">
+              <button id="restart-btn" class="btn" disabled title="Restart solution from beginning of this session's state">↺ Restart</button>
+              <button id="prev-step-btn" class="btn" disabled title="Previous step (Left Arrow)">⏮ Prev</button>
+              <button id="play-btn" class="btn btn-primary" disabled title="Play or Pause (Space)">▶ Play</button>
+              <button id="next-step-btn" class="btn" disabled title="Next step (Right Arrow)">⏭ Next</button>
+              <button id="reset-session-btn" class="btn" title="Reset this algorithm's session back to the shared scramble state">↺ Reset to Scramble</button>
+              
+              <div style="display:flex; align-items:center; gap:6px; margin-left:auto;">
+                <label for="speed-select" style="font-size:0.8rem; color:var(--text-muted); white-space:nowrap;">Speed:</label>
+                <select id="speed-select" class="speed-select">
+                  <option value="0.25">0.25×</option>
+                  <option value="0.5">0.5×</option>
+                  <option value="1.0" selected>1×</option>
+                  <option value="1.5">1.5×</option>
+                  <option value="2.0">2×</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Current Move Explanation Box -->
+          <div id="current-move-box" class="move-explanation-box">
+            <div class="move-exp-header">
+              <span class="move-exp-badge" id="exp-move-badge">—</span>
+              <strong id="exp-move-title" style="color:var(--text-main);">Session Ready</strong>
+              <span id="exp-move-dir" style="color:var(--text-muted); font-size:0.8rem;"></span>
+            </div>
+            <div id="exp-move-desc" style="color:var(--text-muted);">
+              Click "Solve from Current State" or turn the cube manually to explore.
+            </div>
+          </div>
+
+          <!-- 3 SEPARATE MOVE HISTORIES (REQUIREMENT 8) -->
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div style="font-size:0.85rem; font-weight:700; color:var(--text-main); text-transform:uppercase; letter-spacing:0.5px;">
+              Three Separate Move Histories
+            </div>
+
+            <div class="history-panels-grid">
+              <!-- HISTORY A: SCRAMBLE HISTORY -->
+              <div class="history-card">
+                <div class="history-card-header">
+                  <div class="history-card-title" style="color:#38bdf8;">
+                    <span>A. Scramble History</span>
+                  </div>
+                  <span style="font-size:0.75rem; color:var(--text-muted);">Initial Shared Setup</span>
+                </div>
+                <div class="history-moves-row" id="history-scramble-row">
+                  <span class="history-empty-text">No scramble active</span>
+                </div>
+              </div>
+
+              <!-- HISTORY B: USER ACTION HISTORY -->
+              <div class="history-card">
+                <div class="history-card-header">
+                  <div class="history-card-title" style="color:#f59e0b;">
+                    <span>B. User Action History (<span id="history-user-algo-label">V4</span>)</span>
+                  </div>
+                  <span style="font-size:0.75rem; color:var(--text-muted);">Manual Turns by Student</span>
+                </div>
+                <div class="history-moves-row" id="history-user-row">
+                  <span class="history-empty-text">No manual moves performed on this method</span>
+                </div>
+              </div>
+
+              <!-- HISTORY C: SOLVER SOLUTION HISTORY -->
+              <div class="history-card">
+                <div class="history-card-header">
+                  <div class="history-card-title" style="color:#10b981;">
+                    <span>C. Python Solver Solution (<span id="history-solver-algo-label">V4</span>)</span>
+                  </div>
+                  <span id="progress-indicator" style="font-size:0.75rem; font-weight:700; color:var(--accent);">Move 0 / 0</span>
+                </div>
+                <div class="history-moves-row" id="solution-breadcrumbs">
+                  <span class="history-empty-text">Click "Solve from Current State with Python" to compute solution</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Educational Mode ("Explain Every Move") -->
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-size:0.88rem; font-weight:600; color:var(--accent);">
+              <input type="checkbox" id="edu-mode-toggle" style="accent-color:var(--accent); width:16px; height:16px;">
+              Explain Every Move (Educational Mode)
+            </label>
+
+            <div id="edu-panel" class="edu-panel" style="display:none;">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-weight:700; color:var(--text-main);">Mathematical State Inspector</span>
+                <span id="state-validation-badge" style="font-size:0.75rem; color:#10b981; font-weight:bold;">✔ Verified with Python State</span>
+              </div>
+              <div class="edu-grid">
+                <div class="edu-card">
+                  <div class="edu-card-title">Permutation Tuple (Slots 0..6)</div>
+                  <div id="edu-perm-display" style="color:#38bdf8;">(0, 1, 2, 3, 4, 5, 6)</div>
+                </div>
+                <div class="edu-card">
+                  <div class="edu-card-title">Orientation Tuple (mod 3)</div>
+                  <div id="edu-orient-display" style="color:#a78bfa;">(0, 0, 0, 0, 0, 0, 0)</div>
+                </div>
+              </div>
+              <div id="edu-explanation-text" style="color:var(--text-muted); font-size:0.82rem; line-height:1.4;">
+                Permutation tracks corner slot assignments. Orientation sum mod 3 invariant is 0.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 🔍 SEARCH SPACE EXPLORATION & EXPANDED STATES TRACE SECTION -->
+      <div class="card exploration-card" id="exploration-section">
+        <div class="explore-header">
+          <div class="explore-title">
+            <span>🔍 Search Space Exploration: What Python Tried (<span id="explore-algo-title" style="color:var(--accent);">V4</span>)</span>
+          </div>
+          <div class="explore-meta-badges">
+            <span class="explore-badge">Expanded: <strong id="explore-meta-expanded">0</strong></span>
+            <span class="explore-badge">Generated: <strong id="explore-meta-generated">0</strong></span>
+            <span class="explore-badge">Captured Trace: <strong id="explore-meta-events">0</strong> events</span>
+            <label style="display:inline-flex; align-items:center; gap:6px; cursor:pointer; font-size:0.8rem; color:#38bdf8; margin-left:6px;">
+              <input type="checkbox" id="explore-sync-3d" checked style="accent-color:var(--accent);">
+              <span>Preview on 3D Cube</span>
+            </label>
+            <button id="explore-return-cube-btn" class="btn btn-secondary" style="padding:4px 10px; font-size:0.78rem;">
+              ↺ Return 3D to Solution
+            </button>
+          </div>
+        </div>
+
+        <!-- Exploration Playback Controls & Scrubber -->
+        <div class="explore-controls-bar">
+          <div class="explore-btn-group">
+            <button id="explore-first-btn" class="btn btn-secondary" style="padding:6px 10px;" title="Jump to start">⏮</button>
+            <button id="explore-prev-btn" class="btn btn-secondary" style="padding:6px 10px;" title="Previous search step">◀ Prev</button>
+            <button id="explore-play-btn" class="btn btn-primary" style="padding:6px 14px; font-weight:700;">▶ Play Search Trace</button>
+            <button id="explore-next-btn" class="btn btn-secondary" style="padding:6px 10px;" title="Next search step">Next ▶</button>
+            <button id="explore-last-btn" class="btn btn-secondary" style="padding:6px 10px;" title="Jump to goal/end">⏭</button>
+          </div>
+
+          <div class="explore-scrubber">
+            <span style="font-size:0.8rem; color:var(--text-muted); font-family:monospace;">Step:</span>
+            <input type="range" id="explore-slider" min="0" max="0" value="0">
+            <span id="explore-step-counter" style="font-size:0.85rem; font-family:monospace; font-weight:bold; color:var(--text-main); min-width:80px;">0 / 0</span>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:0.8rem; color:var(--text-muted);">Speed:</span>
+            <select id="explore-speed-select" class="speed-select" style="padding:4px 8px; font-size:0.82rem;">
+              <option value="1">1×</option>
+              <option value="2">2×</option>
+              <option value="5" selected>5×</option>
+              <option value="10">10×</option>
+              <option value="20">20× (Fast)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Current Event Detailed Inspector Card -->
+        <div class="event-inspector-card" id="event-inspector">
+          <div>
+            <div id="explore-event-type-badge" class="event-type-pill expand">EXPAND</div>
+            <div id="explore-event-depth" style="font-size:0.8rem; font-family:monospace; color:var(--text-muted); margin-top:6px;">Depth: 0</div>
+          </div>
+          <div>
+            <div style="display:flex; align-items:baseline; gap:8px;">
+              <span id="explore-event-move" style="font-size:1.15rem; font-weight:800; font-family:monospace; color:var(--accent);">—</span>
+              <span id="explore-event-title" style="font-weight:700; color:var(--text-main);">Search State Evaluation</span>
+            </div>
+            <div id="explore-event-explanation" style="font-size:0.85rem; color:#cbd5e1; margin-top:4px; line-height:1.4;">
+              Run a solve to capture the search tree exploration trace.
+            </div>
+          </div>
+          <div style="text-align:right; font-family:monospace; font-size:0.8rem;">
+            <div style="color:var(--text-muted);">Expanded: <strong id="explore-event-expanded" style="color:#e2e8f0;">0</strong></div>
+            <div style="color:var(--text-muted); margin-top:2px;">Generated: <strong id="explore-event-generated" style="color:#e2e8f0;">0</strong></div>
+            <div style="color:var(--text-muted); margin-top:2px;">Elapsed: <strong id="explore-event-time" style="color:#38bdf8;">0.0 ms</strong></div>
+          </div>
+        </div>
+
+        <!-- View Mode Switcher & Tree Controls Bar -->
+        <div class="tree-toolbar">
+          <div class="explore-tab-group">
+            <button id="view-tree-tab-btn" class="btn btn-primary" style="padding:5px 14px; font-size:0.85rem; font-weight:700;">
+              🌳 Search Tree View
+            </button>
+            <button id="view-table-tab-btn" class="btn btn-secondary" style="padding:5px 14px; font-size:0.85rem;">
+              📋 Event Log Table
+            </button>
+          </div>
+
+          <!-- Path Breadcrumb -->
+          <div class="tree-breadcrumb" id="tree-breadcrumb">
+            <span style="color:var(--text-muted); font-size:0.78rem;">Evaluated Path:</span>
+            <span id="tree-path-display" style="font-family:monospace; font-weight:bold; color:var(--accent);">Root</span>
+          </div>
+
+          <!-- Tree Zoom & Filter Controls -->
+          <div class="tree-controls-group" id="tree-controls-group">
+            <!-- V4 Layout Mode Toggle (Inverted Connected Tree vs Side-by-Side) -->
+            <div id="v4-layout-toggle-group" style="display:none; align-items:center; gap:4px; margin-right:8px;">
+              <button id="v4-view-connected-btn" class="btn btn-primary" style="padding:4px 9px; font-size:0.75rem; font-weight:bold;" title="Connected Inverted Tree">⏳ Connected Inverted Tree</button>
+              <button id="v4-view-split-btn" class="btn btn-secondary" style="padding:4px 9px; font-size:0.75rem;" title="Side-by-Side Dual Tree View">↔️ Side-by-Side</button>
+            </div>
+            <button id="tree-filter-all-btn" class="btn btn-secondary" style="padding:4px 8px; font-size:0.75rem; font-weight:bold;">All Branches</button>
+            <button id="tree-filter-sol-btn" class="btn btn-secondary" style="padding:4px 8px; font-size:0.75rem;">⭐ Solution Only</button>
+            <div style="display:inline-flex; gap:2px; margin-left:6px;">
+              <button id="tree-zoom-in-btn" class="btn btn-secondary" style="padding:4px 8px; font-size:0.8rem;" title="Zoom In">+</button>
+              <button id="tree-zoom-out-btn" class="btn btn-secondary" style="padding:4px 8px; font-size:0.8rem;" title="Zoom Out">−</button>
+              <button id="tree-zoom-fit-btn" class="btn btn-secondary" style="padding:4px 8px; font-size:0.8rem;" title="Fit Tree to View">⛶ Fit</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 🌳 INTERACTIVE SEARCH TREE SVG VIEWPORT -->
+        <div class="tree-viewport" id="tree-viewport">
+          <!-- Single-Tree Viewport (V1, V2, V3, V5) -->
+          <svg id="search-tree-svg" width="100%" height="100%">
+            <defs>
+              <filter id="glow-sol" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <filter id="glow-goal" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="5" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+            <g id="tree-pan-layer">
+              <g id="tree-links-layer"></g>
+              <g id="tree-nodes-layer"></g>
+            </g>
+          </svg>
+
+          <!-- 🌿 DEDICATED BIDIRECTIONAL TWO-TREE VIEWPORT (V4) -->
+          <div id="v4-dual-tree-viewport" class="v4-dual-tree-layout" style="display:none;">
+            <!-- MODE 1: Inverted Connected Tree Viewport (Hourglass Layout) -->
+            <div id="v4-connected-container" class="v4-connected-layout" style="display:block;">
+              <div class="v4-connected-header">
+                <div class="v4-connected-legend-pill">
+                  <span class="dot fwd"></span> <span><strong>TREE A (TOP)</strong>: Forward Search (Start ➔ Meeting)</span>
+                </div>
+                <div class="v4-connected-legend-pill">
+                  <span class="dot meet"></span> <span><strong>INTERSECTION BRIDGE</strong>: Meeting Point</span>
+                </div>
+                <div class="v4-connected-legend-pill">
+                  <span class="dot bwd"></span> <span><strong>TREE B (BOTTOM)</strong>: Inverted Backward Search (Goal ➔ Meeting)</span>
+                </div>
+              </div>
+              <svg id="v4-connected-tree-svg" width="100%" height="100%">
+                <g id="v4-connected-pan-layer">
+                  <g id="v4-conn-fwd-links"></g>
+                  <g id="v4-conn-bridge-layer"></g>
+                  <g id="v4-conn-bwd-links"></g>
+                  <g id="v4-conn-fwd-nodes"></g>
+                  <g id="v4-conn-bwd-nodes"></g>
+                </g>
+              </svg>
+            </div>
+
+            <!-- MODE 2: Side-by-Side Dual-Tree Viewport -->
+            <div id="v4-split-container" style="display:none; width:100%; height:100%; position:relative;">
+              <!-- Tree A: Forward Tree (Blue theme) -->
+              <div class="v4-tree-panel forward" id="v4-fwd-panel">
+                <div class="v4-panel-header">
+                  <span class="v4-badge forward">TREE A — FORWARD SEARCH</span>
+                  <span class="v4-meta">Root: Scrambled Cube (Start → Goal)</span>
+                </div>
+                <div class="v4-svg-container" id="v4-fwd-container">
+                  <svg id="v4-fwd-tree-svg" width="100%" height="100%">
+                    <g id="v4-fwd-pan-layer">
+                      <g id="v4-fwd-links"></g>
+                      <g id="v4-fwd-nodes"></g>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Tree B: Backward Tree (Green theme) -->
+              <div class="v4-tree-panel backward" id="v4-bwd-panel">
+                <div class="v4-panel-header">
+                  <span class="v4-badge backward">TREE B — BACKWARD SEARCH</span>
+                  <span class="v4-meta">Root: Solved Cube (Goal → Start)</span>
+                </div>
+                <div class="v4-svg-container" id="v4-bwd-container">
+                  <svg id="v4-bwd-tree-svg" width="100%" height="100%">
+                    <g id="v4-bwd-pan-layer">
+                      <g id="v4-bwd-links"></g>
+                      <g id="v4-bwd-nodes"></g>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Central Meeting Bridge Card (Appears in both modes) -->
+            <div class="v4-bridge-panel" id="v4-bridge-panel" style="display:none;">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+                <div class="v4-bridge-title" style="margin-bottom:0;">🎯 FRONTIER INTERSECTION CONFIRMED</div>
+                <button id="v4-bridge-minimize-btn" class="btn btn-secondary" style="padding:1px 6px; font-size:0.7rem; line-height:1.2;" title="Minimize / Expand">− Min</button>
+              </div>
+              <div class="v4-meeting-state-box" id="v4-meeting-state-box">
+                <div class="v4-path-row"><span class="label">Forward Path (Start → Meeting):</span> <span id="v4-fwd-path-text" class="path-val fwd">—</span></div>
+                <div class="v4-path-row"><span class="label">Backward Search (Goal → Meeting):</span> <span id="v4-bwd-path-text" class="path-val bwd">—</span></div>
+                <div class="v4-path-row"><span class="label">Optimal Solution (Start → Goal):</span> <span id="v4-sol-path-text" class="path-val sol">—</span></div>
+                <div class="v4-explanation-text" id="v4-meeting-explanation">
+                  Backward search moves are inverted and appended to the forward path to produce the optimal shortest path.
+                </div>
+              </div>
+              <div class="v4-bridge-actions">
+                <button id="v4-focus-meeting-btn" class="btn btn-secondary btn-sm" style="padding:4px 10px; font-size:0.75rem;">🎯 Focus Meeting Nodes</button>
+                <button id="v4-replay-cube-btn" class="btn btn-primary btn-sm" style="padding:4px 10px; font-size:0.75rem;">▶ Replay Solution on Cube</button>
+              </div>
+            </div>
+
+            <!-- Tree B: Backward Tree (Green theme) -->
+            <div class="v4-tree-panel backward" id="v4-bwd-panel">
+              <div class="v4-panel-header">
+                <span class="v4-badge backward">TREE B — BACKWARD SEARCH</span>
+                <span class="v4-meta">Root: Solved Cube (Goal → Start)</span>
+              </div>
+              <div class="v4-svg-container" id="v4-bwd-container">
+                <svg id="v4-bwd-tree-svg" width="100%" height="100%">
+                  <g id="v4-bwd-pan-layer">
+                    <g id="v4-bwd-links"></g>
+                    <g id="v4-bwd-nodes"></g>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div id="tree-empty-notice" class="tree-empty-overlay">
+            Click "⚡ Solve from Current State with Python" to construct and explore the state-space search tree.
+          </div>
+        </div>
+
+        <!-- Tree Legend -->
+        <div class="tree-legend-bar" id="tree-legend-bar">
+          <div class="legend-item"><span class="legend-dot" style="background:#10b981; box-shadow:0 0 6px #10b981;"></span><span>Chosen Solution Path</span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:#38bdf8;"></span><span>Expanded State</span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:#f59e0b; border:1px dashed #f59e0b;"></span><span>Pruned Branch</span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:#64748b;"></span><span>Visited Duplicate</span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:#c084fc;"></span><span>DFS Backtracked</span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:#fbbf24; box-shadow:0 0 8px #fbbf24;"></span><span>🎯 Goal State</span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:#ffffff; box-shadow:0 0 8px #ffffff;"></span><span>⚡ Current Focus</span></div>
+        </div>
+
+        <!-- Scrollable Event Stream Table -->
+        <div class="event-table-container" id="event-table-container" style="display:none;">
+          <table class="event-table">
+            <thead>
+              <tr>
+                <th style="width:50px;">#</th>
+                <th style="width:110px;">Action</th>
+                <th style="width:70px;">Depth</th>
+                <th style="width:70px;">Move</th>
+                <th>Machine Logic & Search Decision</th>
+                <th style="width:90px; text-align:right;">Elapsed</th>
+              </tr>
+            </thead>
+            <tbody id="explore-table-body">
+              <tr>
+                <td colspan="6" style="padding:24px; text-align:center; color:var(--text-muted); font-style:italic;">
+                  Click "⚡ Solve from Current State with Python" to stream the state-space search trace.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: COMPARE SOLVERS -->
+    <div id="tab-compare" class="tab-content">
+      <div class="card">
+        <div class="card-title">
+          <span>Head-to-Head Algorithm Comparison</span>
+          <button id="compare-all-btn" class="btn btn-primary">Compare All on Current Scramble</button>
+        </div>
+        <p style="color:var(--text-muted); font-size:0.9rem;">
+          Executes V1, V2, V3, V4, and V5 concurrently in Python on the shared scrambled state to measure states expanded, wall-clock time, and memory footprint.
+        </p>
+        <div style="overflow-x:auto;">
+          <table style="width:100%; border-collapse:collapse; margin-top:16px;">
+            <thead>
+              <tr style="background:#1e293b; color:#e2e8f0; text-align:left;">
+                <th style="padding:10px 14px; border:1px solid #334155;">Algorithm</th>
+                <th style="padding:10px 14px; border:1px solid #334155;">Optimal Path?</th>
+                <th style="padding:10px 14px; border:1px solid #334155;">Solution Length</th>
+                <th style="padding:10px 14px; border:1px solid #334155;">Expanded Nodes</th>
+                <th style="padding:10px 14px; border:1px solid #334155;">Execution Time</th>
+                <th style="padding:10px 14px; border:1px solid #334155;">Peak Memory</th>
+              </tr>
+            </thead>
+            <tbody id="compare-table-body">
+              <tr>
+                <td colspan="6" style="padding:20px; text-align:center; color:var(--text-muted);">
+                  Click "Compare All on Current Scramble" to benchmark all algorithms on the shared initial cube.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: SQLITE HISTORY -->
+    <div id="tab-history" class="tab-content">
+      <div class="card">
+        <div class="card-title">
+          <span>Persistent SQLite Experiment &amp; Solve History</span>
+          <span id="history-summary-badge" style="font-size:0.85rem; color:var(--accent); font-weight:600;">Loading...</span>
+        </div>
+        <p style="color:var(--text-muted); font-size:0.9rem;">
+          Permanent records stored in <code>backend/pocket_cube.db</code> via SQLite. Contains shared experiments, independent algorithm sessions, scramble sequences, solution paths, states expanded, and wall-clock times.
+        </p>
+        <div style="overflow-x:auto;">
+          <table style="width:100%; border-collapse:collapse; margin-top:16px;">
+            <thead>
+              <tr style="background:#1e293b; color:#e2e8f0; text-align:left;">
+                <th style="padding:10px 14px; border:1px solid #334155;">Timestamp (UTC)</th>
+                <th style="padding:10px 14px; border:1px solid #334155;">Algorithm</th>
+                <th style="padding:10px 14px; border:1px solid #334155;">Solution Length</th>
+                <th style="padding:10px 14px; border:1px solid #334155;">Expanded Nodes</th>
+                <th style="padding:10px 14px; border:1px solid #334155;">Execution Time</th>
+                <th style="padding:10px 14px; border:1px solid #334155;">Solution Sequence</th>
+              </tr>
+            </thead>
+            <tbody id="history-table-body">
+              <tr>
+                <td colspan="6" style="padding:20px; text-align:center; color:var(--text-muted);">
+                  Loading SQLite records from Python backend...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: BENCHMARKS & PLOTS -->
+    <div id="tab-benchmarks" class="tab-content">
+      <iframe class="report-frame" src="../backend/visualization/report.html"></iframe>
+    </div>
+  </main>
+
+  <!-- SAVED EXPERIMENTS MODAL DIALOG -->
+  <dialog id="exp-modal" style="background:var(--bg-card); color:var(--text-main); border:1px solid var(--border); border-radius:12px; padding:24px; max-width:650px; width:90%; margin:auto; box-shadow:0 10px 25px rgba(0,0,0,0.5);">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; border-bottom:1px solid var(--border); padding-bottom:10px;">
+      <h3 style="font-size:1.1rem; color:var(--accent);">📁 Persistent Experiment Archive (SQLite)</h3>
+      <button id="close-modal-btn" class="btn" style="padding:4px 8px;">✕</button>
+    </div>
+    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">
+      Select an experiment to restore its shared scramble and all 5 algorithm solving sessions exactly as saved.
+    </p>
+    <div id="modal-exp-list" style="display:flex; flex-direction:column; gap:8px; max-height:350px; overflow-y:auto;">
+      <!-- Populated dynamically -->
+    </div>
+  </dialog>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

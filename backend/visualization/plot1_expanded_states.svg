@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 450" width="750" height="450" style="background:#0f172a; font-family:system-ui, -apple-system, sans-serif;">
+<rect width="750" height="450" fill="#0f172a" rx="12"/>
+<text x="375.0" y="32" text-anchor="middle" fill="#f8fafc" font-size="18" font-weight="bold">Plot 1: States Expanded vs. Scramble Depth d (Log10 Scale)</text>
+<line x1="90" y1="390.0" x2="710" y2="390.0" stroke="#334155" stroke-dasharray="3,3" stroke-width="1"/>
+<text x="78" y="394.0" text-anchor="end" fill="#94a3b8" font-size="12">1</text>
+<line x1="90" y1="341.42857142857144" x2="710" y2="341.42857142857144" stroke="#334155" stroke-dasharray="3,3" stroke-width="1"/>
+<text x="78" y="345.42857142857144" text-anchor="end" fill="#94a3b8" font-size="12">10^1</text>
+<line x1="90" y1="292.8571428571429" x2="710" y2="292.8571428571429" stroke="#334155" stroke-dasharray="3,3" stroke-width="1"/>
+<text x="78" y="296.8571428571429" text-anchor="end" fill="#94a3b8" font-size="12">10^2</text>
+<line x1="90" y1="244.2857142857143" x2="710" y2="244.2857142857143" stroke="#334155" stroke-dasharray="3,3" stroke-width="1"/>
+<text x="78" y="248.2857142857143" text-anchor="end" fill="#94a3b8" font-size="12">10^3</text>
+<line x1="90" y1="195.71428571428572" x2="710" y2="195.71428571428572" stroke="#334155" stroke-dasharray="3,3" stroke-width="1"/>
+<text x="78" y="199.71428571428572" text-anchor="end" fill="#94a3b8" font-size="12">10^4</text>
+<line x1="90" y1="147.14285714285714" x2="710" y2="147.14285714285714" stroke="#334155" stroke-dasharray="3,3" stroke-width="1"/>
+<text x="78" y="151.14285714285714" text-anchor="end" fill="#94a3b8" font-size="12">10^5</text>
+<line x1="90" y1="98.57142857142861" x2="710" y2="98.57142857142861" stroke="#334155" stroke-dasharray="3,3" stroke-width="1"/>
+<text x="78" y="102.57142857142861" text-anchor="end" fill="#94a3b8" font-size="12">10^6</text>
+<line x1="90" y1="50.0" x2="710" y2="50.0" stroke="#334155" stroke-dasharray="3,3" stroke-width="1"/>
+<text x="78" y="54.0" text-anchor="end" fill="#94a3b8" font-size="12">10^7</text>
+<line x1="90.0" y1="50" x2="90.0" y2="390" stroke="#1e293b" stroke-width="1"/>
+<text x="90.0" y="414" text-anchor="middle" fill="#94a3b8" font-size="13">d = 2</text>
+<line x1="227.77777777777777" y1="50" x2="227.77777777777777" y2="390" stroke="#1e293b" stroke-width="1"/>
+<text x="227.77777777777777" y="414" text-anchor="middle" fill="#94a3b8" font-size="13">d = 4</text>
+<line x1="365.55555555555554" y1="50" x2="365.55555555555554" y2="390" stroke="#1e293b" stroke-width="1"/>
+<text x="365.55555555555554" y="414" text-anchor="middle" fill="#94a3b8" font-size="13">d = 6</text>
+<line x1="503.3333333333333" y1="50" x2="503.3333333333333" y2="390" stroke="#1e293b" stroke-width="1"/>
+<text x="503.3333333333333" y="414" text-anchor="middle" fill="#94a3b8" font-size="13">d = 8</text>
+<line x1="641.1111111111111" y1="50" x2="641.1111111111111" y2="390" stroke="#1e293b" stroke-width="1"/>
+<text x="641.1111111111111" y="414" text-anchor="middle" fill="#94a3b8" font-size="13">d = 10</text>
+<line x1="710.0" y1="50" x2="710.0" y2="390" stroke="#1e293b" stroke-width="1"/>
+<text x="710.0" y="414" text-anchor="middle" fill="#94a3b8" font-size="13">d = 11</text>
+<text x="400.0" y="435" text-anchor="middle" fill="#cbd5e1" font-size="14" font-weight="600">Scramble Depth d</text>
+<text x="24" y="220.0" text-anchor="middle" fill="#cbd5e1" font-size="14" font-weight="600" transform="rotate(-90 24 220.0)">Expanded States (log10)</text>
+<path d="M 90.0,357.5 L 227.8,305.9 L 365.6,235.0" fill="none" stroke="#ef4444" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="90.0" cy="357.5" r="5" fill="#ef4444" stroke="#0f172a" stroke-width="2"/>
+<circle cx="227.8" cy="305.9" r="5" fill="#ef4444" stroke="#0f172a" stroke-width="2"/>
+<circle cx="365.6" cy="235.0" r="5" fill="#ef4444" stroke="#0f172a" stroke-width="2"/>
+<path d="M 90.0,357.5 L 227.8,309.5 L 365.6,243.2 L 503.3,191.4" fill="none" stroke="#f59e0b" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="90.0" cy="357.5" r="5" fill="#f59e0b" stroke="#0f172a" stroke-width="2"/>
+<circle cx="227.8" cy="309.5" r="5" fill="#f59e0b" stroke="#0f172a" stroke-width="2"/>
+<circle cx="365.6" cy="243.2" r="5" fill="#f59e0b" stroke="#0f172a" stroke-width="2"/>
+<circle cx="503.3" cy="191.4" r="5" fill="#f59e0b" stroke="#0f172a" stroke-width="2"/>
+<path d="M 90.0,375.4 L 227.8,334.3 L 365.6,301.0 L 503.3,269.1 L 641.1,252.9 L 710.0,223.3" fill="none" stroke="#10b981" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="90.0" cy="375.4" r="5" fill="#10b981" stroke="#0f172a" stroke-width="2"/>
+<circle cx="227.8" cy="334.3" r="5" fill="#10b981" stroke="#0f172a" stroke-width="2"/>
+<circle cx="365.6" cy="301.0" r="5" fill="#10b981" stroke="#0f172a" stroke-width="2"/>
+<circle cx="503.3" cy="269.1" r="5" fill="#10b981" stroke="#0f172a" stroke-width="2"/>
+<circle cx="641.1" cy="252.9" r="5" fill="#10b981" stroke="#0f172a" stroke-width="2"/>
+<circle cx="710.0" cy="223.3" r="5" fill="#10b981" stroke="#0f172a" stroke-width="2"/>
+<path d="M 90.0,366.8 L 227.8,329.0 L 365.6,265.3 L 503.3,210.0 L 641.1,174.6 L 710.0,170.0" fill="none" stroke="#3b82f6" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="90.0" cy="366.8" r="5" fill="#3b82f6" stroke="#0f172a" stroke-width="2"/>
+<circle cx="227.8" cy="329.0" r="5" fill="#3b82f6" stroke="#0f172a" stroke-width="2"/>
+<circle cx="365.6" cy="265.3" r="5" fill="#3b82f6" stroke="#0f172a" stroke-width="2"/>
+<circle cx="503.3" cy="210.0" r="5" fill="#3b82f6" stroke="#0f172a" stroke-width="2"/>
+<circle cx="641.1" cy="174.6" r="5" fill="#3b82f6" stroke="#0f172a" stroke-width="2"/>
+<circle cx="710.0" cy="170.0" r="5" fill="#3b82f6" stroke="#0f172a" stroke-width="2"/>
+<rect x="110" y="52" width="12" height="12" fill="#ef4444" rx="3"/>
+<text x="128" y="63" fill="#e2e8f0" font-size="12">V2 Unidirectional BFS</text>
+<rect x="260" y="52" width="12" height="12" fill="#f59e0b" rx="3"/>
+<text x="278" y="63" fill="#e2e8f0" font-size="12">V3 Move-Pruned BFS</text>
+<rect x="410" y="52" width="12" height="12" fill="#10b981" rx="3"/>
+<text x="428" y="63" fill="#e2e8f0" font-size="12">V4 Bidirectional BFS</text>
+<rect x="560" y="52" width="12" height="12" fill="#3b82f6" rx="3"/>
+<text x="578" y="63" fill="#e2e8f0" font-size="12">V5 IDA*</text>
+</svg>

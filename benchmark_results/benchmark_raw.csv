@@ -1,0 +1,241 @@
+trial_id,scramble_depth,trial_index,algorithm,label,found,timed_out,scramble,solution_length,optimal_depth,expanded_states,generated_states,visited_states,search_storage,storage_type,peak_memory_kb,elapsed_ms
+1,2,1,v2,V2 Unidirectional BFS,True,False,U' F,2,2,7,37,30,30,hash_table_entries,3.61,9.34
+1,2,1,v3,V3 Move-Pruned BFS,True,False,U' F,2,2,7,32,33,33,composite_visited_entries,3.59,4.47
+1,2,1,v4,V4 Bidirectional BFS,True,False,U' F,2,2,2,12,13,14,dual_table_records,6.46,3.04
+1,2,1,v5,V5 IDA*,True,False,U' F,2,2,4,11,0,2,max_stack_depth,1.73,1.75
+2,2,2,v2,V2 Unidirectional BFS,True,False,F R,2,2,5,30,24,24,hash_table_entries,3.61,10.23
+2,2,2,v3,V3 Move-Pruned BFS,True,False,F R,2,2,5,26,27,27,composite_visited_entries,3.57,6.02
+2,2,2,v4,V4 Bidirectional BFS,True,False,F R,2,2,2,12,13,14,dual_table_records,6.31,3.85
+2,2,2,v5,V5 IDA*,True,False,F R,2,2,3,8,0,2,max_stack_depth,1.71,1.11
+3,2,3,v2,V2 Unidirectional BFS,True,False,U F,2,2,7,38,31,31,hash_table_entries,3.61,5.32
+3,2,3,v3,V3 Move-Pruned BFS,True,False,U F,2,2,7,33,34,34,composite_visited_entries,3.57,5.83
+3,2,3,v4,V4 Bidirectional BFS,True,False,U F,2,2,2,12,13,14,dual_table_records,6.31,2.76
+3,2,3,v5,V5 IDA*,True,False,U F,2,2,4,12,0,2,max_stack_depth,1.71,1.97
+4,2,4,v2,V2 Unidirectional BFS,True,False,R' U',2,2,2,9,8,8,hash_table_entries,2.81,1.74
+4,2,4,v3,V3 Move-Pruned BFS,True,False,R' U',2,2,2,8,9,9,composite_visited_entries,2.77,2.93
+4,2,4,v4,V4 Bidirectional BFS,True,False,R' U',2,2,2,12,13,14,dual_table_records,6.31,2.89
+4,2,4,v5,V5 IDA*,True,False,R' U',2,2,3,2,0,2,max_stack_depth,1.46,0.21
+5,2,5,v2,V2 Unidirectional BFS,True,False,R F,2,2,7,40,33,33,hash_table_entries,4.12,8.73
+5,2,5,v3,V3 Move-Pruned BFS,True,False,R F,2,2,7,35,36,36,composite_visited_entries,3.57,4.68
+5,2,5,v4,V4 Bidirectional BFS,True,False,R F,2,2,2,12,13,14,dual_table_records,6.31,12.25
+5,2,5,v5,V5 IDA*,True,False,R F,2,2,4,14,0,2,max_stack_depth,1.71,1.47
+6,2,6,v2,V2 Unidirectional BFS,True,False,U' F,2,2,7,37,30,30,hash_table_entries,3.61,8.15
+6,2,6,v3,V3 Move-Pruned BFS,True,False,U' F,2,2,7,32,33,33,composite_visited_entries,3.57,8.05
+6,2,6,v4,V4 Bidirectional BFS,True,False,U' F,2,2,2,12,13,14,dual_table_records,6.31,2.39
+6,2,6,v5,V5 IDA*,True,False,U' F,2,2,4,11,0,2,max_stack_depth,1.71,1.46
+7,2,7,v2,V2 Unidirectional BFS,True,False,F R',2,2,4,24,20,20,hash_table_entries,3.08,5.93
+7,2,7,v3,V3 Move-Pruned BFS,True,False,F R',2,2,4,21,22,22,composite_visited_entries,3.51,4.31
+7,2,7,v4,V4 Bidirectional BFS,True,False,F R',2,2,2,12,13,14,dual_table_records,6.31,2.89
+7,2,7,v5,V5 IDA*,True,False,F R',2,2,3,7,0,2,max_stack_depth,1.71,0.9
+8,2,8,v2,V2 Unidirectional BFS,True,False,F' U',2,2,2,11,10,10,hash_table_entries,2.81,2.56
+8,2,8,v3,V3 Move-Pruned BFS,True,False,F' U',2,2,2,10,11,11,composite_visited_entries,2.77,2.03
+8,2,8,v4,V4 Bidirectional BFS,True,False,F' U',2,2,2,12,13,14,dual_table_records,6.31,2.66
+8,2,8,v5,V5 IDA*,True,False,F' U',2,2,3,4,0,2,max_stack_depth,1.46,0.67
+9,2,9,v2,V2 Unidirectional BFS,True,False,F R',2,2,4,24,20,20,hash_table_entries,3.08,4.65
+9,2,9,v3,V3 Move-Pruned BFS,True,False,F R',2,2,4,21,22,22,composite_visited_entries,3.51,3.67
+9,2,9,v4,V4 Bidirectional BFS,True,False,F R',2,2,2,12,13,14,dual_table_records,6.31,2.12
+9,2,9,v5,V5 IDA*,True,False,F R',2,2,3,7,0,2,max_stack_depth,1.71,0.77
+10,2,10,v2,V2 Unidirectional BFS,True,False,F' U,2,2,3,17,14,14,hash_table_entries,3.08,7.83
+10,2,10,v3,V3 Move-Pruned BFS,True,False,F' U,2,2,3,15,16,16,composite_visited_entries,3.05,3.36
+10,2,10,v4,V4 Bidirectional BFS,True,False,F' U,2,2,2,12,13,14,dual_table_records,6.31,2.84
+10,2,10,v5,V5 IDA*,True,False,F' U,2,2,3,5,0,2,max_stack_depth,1.46,1.02
+11,4,1,v2,V2 Unidirectional BFS,True,False,R' U' F R,4,4,111,663,493,493,hash_table_entries,31.03,202.32
+11,4,1,v3,V3 Move-Pruned BFS,True,False,R' U' F R,4,4,121,582,543,543,composite_visited_entries,41.57,138.4
+11,4,1,v4,V4 Bidirectional BFS,True,False,R' U' F R,4,4,14,84,67,68,dual_table_records,12.94,21.43
+11,4,1,v5,V5 IDA*,True,False,R' U' F R,4,4,33,126,0,4,max_stack_depth,1.96,16.81
+12,4,2,v2,V2 Unidirectional BFS,True,False,U' R F' U',4,4,51,301,226,226,hash_table_entries,16.5,75.47
+12,4,2,v3,V3 Move-Pruned BFS,True,False,U' R F' U',4,4,55,264,249,249,composite_visited_entries,16.47,64.15
+12,4,2,v4,V4 Bidirectional BFS,True,False,U' R F' U',4,4,14,84,67,68,dual_table_records,12.94,24.4
+12,4,2,v5,V5 IDA*,True,False,U' R F' U',4,4,18,65,0,4,max_stack_depth,1.96,9.93
+13,4,3,v2,V2 Unidirectional BFS,True,False,U F R' U,4,4,61,362,271,271,hash_table_entries,16.5,121.3
+13,4,3,v3,V3 Move-Pruned BFS,True,False,U F R' U,4,4,66,317,298,298,composite_visited_entries,16.47,138.69
+13,4,3,v4,V4 Bidirectional BFS,True,False,U F R' U,4,4,14,84,67,68,dual_table_records,12.94,35.05
+13,4,3,v5,V5 IDA*,True,False,U F R' U,4,4,20,73,0,4,max_stack_depth,1.96,17.87
+14,4,4,v2,V2 Unidirectional BFS,True,False,F' R' U R',4,4,80,479,357,357,hash_table_entries,31.03,120.42
+14,4,4,v3,V3 Move-Pruned BFS,True,False,F' R' U R',4,4,88,424,393,393,composite_visited_entries,30.99,80.59
+14,4,4,v4,V4 Bidirectional BFS,True,False,F' R' U R',4,4,14,84,67,68,dual_table_records,12.94,23.36
+14,4,4,v5,V5 IDA*,True,False,F' R' U R',4,4,25,93,0,4,max_stack_depth,1.96,11.25
+15,4,5,v2,V2 Unidirectional BFS,True,False,F R' F' U',4,4,50,300,225,225,hash_table_entries,16.5,59.57
+15,4,5,v3,V3 Move-Pruned BFS,True,False,F R' F' U',4,4,54,263,248,248,composite_visited_entries,16.47,52.62
+15,4,5,v4,V4 Bidirectional BFS,True,False,F R' F' U',4,4,14,84,67,68,dual_table_records,12.94,16.2
+15,4,5,v5,V5 IDA*,True,False,F R' F' U',4,4,18,67,0,4,max_stack_depth,1.96,6.04
+16,4,6,v2,V2 Unidirectional BFS,True,False,U F U R,4,4,105,626,467,467,hash_table_entries,31.03,146.66
+16,4,6,v3,V3 Move-Pruned BFS,True,False,U F U R,4,4,115,553,514,514,composite_visited_entries,33.82,118.09
+16,4,6,v4,V4 Bidirectional BFS,True,False,U F U R,4,4,14,84,67,68,dual_table_records,12.94,19.9
+16,4,6,v5,V5 IDA*,True,False,U F U R,4,4,31,120,0,4,max_stack_depth,1.96,14.91
+17,4,7,v2,V2 Unidirectional BFS,True,False,F' R U' R,4,4,99,593,441,441,hash_table_entries,31.09,149.17
+17,4,7,v3,V3 Move-Pruned BFS,True,False,F' R U' R,4,4,108,521,486,486,composite_visited_entries,30.99,110.13
+17,4,7,v4,V4 Bidirectional BFS,True,False,F' R U' R,4,4,14,84,67,68,dual_table_records,12.94,20.13
+17,4,7,v5,V5 IDA*,True,False,F' R U' R,4,4,29,110,0,4,max_stack_depth,1.96,15.06
+18,4,8,v2,V2 Unidirectional BFS,True,False,R' U F U',4,4,54,321,239,239,hash_table_entries,16.5,77.56
+18,4,8,v3,V3 Move-Pruned BFS,True,False,R' U F U',4,4,58,279,264,264,composite_visited_entries,16.47,59.33
+18,4,8,v4,V4 Bidirectional BFS,True,False,R' U F U',4,4,14,84,67,68,dual_table_records,12.94,19.36
+18,4,8,v5,V5 IDA*,True,False,R' U F U',4,4,19,70,0,4,max_stack_depth,1.96,8.89
+19,4,9,v2,V2 Unidirectional BFS,True,False,R U' R U',4,4,44,262,196,196,hash_table_entries,16.5,59.23
+19,4,9,v3,V3 Move-Pruned BFS,True,False,R U' R U',4,4,47,227,216,216,composite_visited_entries,16.47,49.83
+19,4,9,v4,V4 Bidirectional BFS,True,False,R U' R U',4,4,14,84,67,68,dual_table_records,12.94,20.39
+19,4,9,v5,V5 IDA*,True,False,R U' R U',4,4,14,46,0,4,max_stack_depth,1.96,4.68
+20,4,10,v2,V2 Unidirectional BFS,True,False,U' F U' R',4,4,79,469,350,350,hash_table_entries,31.06,110.35
+20,4,10,v3,V3 Move-Pruned BFS,True,False,U' F U' R',4,4,86,412,385,385,composite_visited_entries,31.02,83.55
+20,4,10,v4,V4 Bidirectional BFS,True,False,U' F U' R',4,4,14,84,67,68,dual_table_records,12.94,18.4
+20,4,10,v5,V5 IDA*,True,False,U' F U' R',4,4,24,89,0,4,max_stack_depth,1.96,11.48
+21,6,1,v2,V2 Unidirectional BFS,False,True,F U F' R' U' F',-1,6,1842,11052,7670,7670,hash_table_entries,2890.92,3008.46
+21,6,1,v3,V3 Move-Pruned BFS,False,True,F U F' R' U' F',-1,6,2198,10588,9741,9741,composite_visited_entries,4951.36,3020.61
+21,6,1,v4,V4 Bidirectional BFS,True,False,F U F' R' U' F',6,6,68,408,306,308,dual_table_records,42.26,90.16
+21,6,1,v5,V5 IDA*,True,False,F U F' R' U' F',6,6,547,2184,0,6,max_stack_depth,1.98,237.98
+22,6,2,v2,V2 Unidirectional BFS,True,False,U' F' R' F' R U,6,6,1275,7645,5385,5385,hash_table_entries,1875.27,1991.72
+22,6,2,v3,V3 Move-Pruned BFS,True,False,U' F' R' F' R U,6,6,1403,6755,6244,6244,composite_visited_entries,3110.52,1762.66
+22,6,2,v4,V4 Bidirectional BFS,True,False,U' F' R' F' R U,6,6,68,408,307,308,dual_table_records,42.85,104.4
+22,6,2,v5,V5 IDA*,True,False,U' F' R' F' R U,6,6,311,1238,0,6,max_stack_depth,2.41,150.56
+23,6,3,v2,V2 Unidirectional BFS,True,False,F U F R F R',6,6,1607,9640,6720,6720,hash_table_entries,2528.5,2522.51
+23,6,3,v3,V3 Move-Pruned BFS,True,False,F U F R F R',6,6,1778,8564,7899,7899,composite_visited_entries,3981.58,2183.8
+23,6,3,v4,V4 Bidirectional BFS,True,False,F U F R F R',6,6,68,408,306,308,dual_table_records,42.26,90.94
+23,6,3,v5,V5 IDA*,True,False,F U F R F R',6,6,400,1595,0,6,max_stack_depth,1.98,191.69
+24,6,4,v2,V2 Unidirectional BFS,False,True,F U' R' F' U F,-1,6,1871,11226,7778,7778,hash_table_entries,2931.73,3006.29
+24,6,4,v3,V3 Move-Pruned BFS,False,True,F U' R' F' U F,-1,6,2547,12269,11246,11246,composite_visited_entries,6149.27,3016.93
+24,6,4,v4,V4 Bidirectional BFS,True,False,F U' R' F' U F,6,6,68,408,307,308,dual_table_records,42.26,88.47
+24,6,4,v5,V5 IDA*,True,False,F U' R' F' U F,6,6,658,2631,0,6,max_stack_depth,1.98,317.54
+25,6,5,v2,V2 Unidirectional BFS,True,False,F' R U F' R U,6,6,1269,7613,5362,5362,hash_table_entries,1867.05,2039.13
+25,6,5,v3,V3 Move-Pruned BFS,True,False,F' R U F' R U,6,6,1397,6729,6218,6218,composite_visited_entries,3096.43,1691.82
+25,6,5,v4,V4 Bidirectional BFS,True,False,F' R U F' R U,6,6,68,408,307,308,dual_table_records,42.26,85.36
+25,6,5,v5,V5 IDA*,True,False,F' R U F' R U,6,6,300,1194,0,6,max_stack_depth,1.98,141.86
+26,6,6,v2,V2 Unidirectional BFS,True,False,R' F' U' R' U' R',6,6,1500,8997,6273,6273,hash_table_entries,2358.17,2414.25
+26,6,6,v3,V3 Move-Pruned BFS,True,False,R' F' U' R' U' R',6,6,1653,7961,7354,7354,composite_visited_entries,3835.07,1988.06
+26,6,6,v4,V4 Bidirectional BFS,True,False,R' F' U' R' U' R',6,6,68,408,307,308,dual_table_records,42.8,84.77
+26,6,6,v5,V5 IDA*,True,False,R' F' U' R' U' R',6,6,352,1400,0,6,max_stack_depth,2.29,158.48
+27,6,7,v2,V2 Unidirectional BFS,True,False,F' U F' U' R U,6,6,1237,7421,5233,5233,hash_table_entries,1817.88,1973.2
+27,6,7,v3,V3 Move-Pruned BFS,True,False,F' U F' U' R U,6,6,1361,6557,6062,6062,composite_visited_entries,3013.76,1664.28
+27,6,7,v4,V4 Bidirectional BFS,True,False,F' U F' U' R U,6,6,68,408,307,308,dual_table_records,42.26,90.1
+27,6,7,v5,V5 IDA*,True,False,F' U F' U' R U,6,6,287,1141,0,6,max_stack_depth,1.98,135.03
+28,6,8,v2,V2 Unidirectional BFS,True,False,F' R' U' F R U',6,6,930,5579,3986,3986,hash_table_entries,1342.37,1342.75
+28,6,8,v3,V3 Move-Pruned BFS,True,False,F' R' U' F R U',6,6,1023,4928,4557,4557,composite_visited_entries,2077.8,1218.81
+28,6,8,v4,V4 Bidirectional BFS,True,False,F' R' U' F R U',6,6,68,408,307,308,dual_table_records,42.26,82.3
+28,6,8,v5,V5 IDA*,True,False,F' R' U' F R U',6,6,214,848,0,6,max_stack_depth,1.95,99.86
+29,6,9,v2,V2 Unidirectional BFS,False,True,R' F U' F' U' R,-1,6,1903,11418,7897,7897,hash_table_entries,2976.73,3011.76
+29,6,9,v3,V3 Move-Pruned BFS,True,False,R' F U' F' U' R,6,6,2178,10490,9651,9651,composite_visited_entries,4904.02,2654.22
+29,6,9,v4,V4 Bidirectional BFS,True,False,R' F U' F' U' R,6,6,68,408,307,308,dual_table_records,42.26,90.16
+29,6,9,v5,V5 IDA*,True,False,R' F U' F' U' R,6,6,456,1820,0,6,max_stack_depth,1.98,214.87
+30,6,10,v2,V2 Unidirectional BFS,True,False,F' U' F R F R',6,6,1504,9022,6292,6292,hash_table_entries,2364.92,2407.89
+30,6,10,v3,V3 Move-Pruned BFS,True,False,F' U' F R F R',6,6,1659,7991,7378,7378,composite_visited_entries,3807.84,2172.14
+30,6,10,v4,V4 Bidirectional BFS,True,False,F' U' F R F R',6,6,68,408,306,308,dual_table_records,42.85,99.11
+30,6,10,v5,V5 IDA*,True,False,F' U' F R F R',6,6,365,1455,0,6,max_stack_depth,2.41,169.85
+31,8,1,v2,V2 Unidirectional BFS,False,True,U F R F' U' F U' R',-1,8,1723,10338,7201,7201,hash_table_entries,2712.37,3006.99
+31,8,1,v3,V3 Move-Pruned BFS,False,True,U F R F' U' F U' R',-1,8,2199,10593,9746,9746,composite_visited_entries,4953.94,3014.81
+31,8,1,v4,V4 Bidirectional BFS,True,False,U F R F' U' F U' R',8,8,308,1848,1374,1376,dual_table_records,418.88,447.56
+31,8,1,v5,V5 IDA*,True,False,U F R F' U' F U' R',8,8,5846,23382,0,8,max_stack_depth,2.95,2751.5
+32,8,2,v2,V2 Unidirectional BFS,False,True,U' F' U' R' U R' U F',-1,8,1914,11484,7944,7944,hash_table_entries,2994.73,3007.28
+32,8,2,v3,V3 Move-Pruned BFS,False,True,U' F' U' R' U R' U F',-1,8,2468,11889,10912,10912,composite_visited_entries,5567.73,3014.47
+32,8,2,v4,V4 Bidirectional BFS,True,False,U' F' U' R' U R' U F',8,8,308,1848,1374,1376,dual_table_records,418.88,435.45
+32,8,2,v5,V5 IDA*,False,True,U' F' U' R' U R' U F',-1,8,6486,25945,0,8,max_stack_depth,2.83,3000.07
+33,8,3,v2,V2 Unidirectional BFS,False,True,F' R U F' U' R U R,-1,8,1698,10188,7097,7097,hash_table_entries,2673.14,3017.08
+33,8,3,v3,V3 Move-Pruned BFS,False,True,F' R U F' U' R U R,-1,8,2397,11547,10608,10608,composite_visited_entries,5548.34,3014.97
+33,8,3,v4,V4 Bidirectional BFS,True,False,F' R U F' U' R U R,8,8,308,1848,1375,1376,dual_table_records,419.41,452.04
+33,8,3,v5,V5 IDA*,False,True,F' R U F' U' R U R,-1,8,6580,26329,0,8,max_stack_depth,3.23,3000.12
+34,8,4,v2,V2 Unidirectional BFS,False,True,U F' U' R U' R U F',-1,8,1893,11358,7862,7862,hash_table_entries,2963.89,3011.13
+34,8,4,v3,V3 Move-Pruned BFS,False,True,U F' U' R U' R U F',-1,8,2467,11884,10907,10907,composite_visited_entries,5565.12,3014.74
+34,8,4,v4,V4 Bidirectional BFS,True,False,U F' U' R U' R U F',8,8,308,1848,1374,1376,dual_table_records,418.88,440.87
+34,8,4,v5,V5 IDA*,False,True,U F' U' R U' R U F',-1,8,6082,24331,0,8,max_stack_depth,2.83,3000.14
+35,8,5,v2,V2 Unidirectional BFS,False,True,F' R U R' F' U' R F',-1,8,1892,11352,7858,7858,hash_table_entries,2962.78,3007.9
+35,8,5,v3,V3 Move-Pruned BFS,False,True,F' R U R' F' U' R F',-1,8,2382,11475,10540,10540,composite_visited_entries,5372.1,3050.65
+35,8,5,v4,V4 Bidirectional BFS,True,False,F' R U R' F' U' R F',8,8,308,1848,1375,1376,dual_table_records,419.47,1009.11
+35,8,5,v5,V5 IDA*,False,True,F' R U R' F' U' R F',-1,8,2685,10748,0,7,max_stack_depth,3.31,3000.19
+36,8,6,v2,V2 Unidirectional BFS,False,True,U' R U R U F' R U',-1,8,1759,10554,7337,7337,hash_table_entries,2763.95,3114.83
+36,8,6,v3,V3 Move-Pruned BFS,False,True,U' R U R U F' R U',-1,8,858,4135,3824,3824,composite_visited_entries,1691.1,3015.86
+36,8,6,v4,V4 Bidirectional BFS,True,False,U' R U R U F' R U',8,8,308,1848,1374,1376,dual_table_records,418.88,550.14
+36,8,6,v5,V5 IDA*,True,False,U' R U R U F' R U',8,8,3335,13331,0,8,max_stack_depth,2.88,1970.67
+37,8,7,v2,V2 Unidirectional BFS,False,True,U F' R' F' U' R' F R',-1,8,1810,10860,7537,7537,hash_table_entries,2839.79,3008.48
+37,8,7,v3,V3 Move-Pruned BFS,False,True,U F' R' F' U' R' F R',-1,8,2326,11206,10297,10297,composite_visited_entries,5243.67,3015.19
+37,8,7,v4,V4 Bidirectional BFS,True,False,U F' R' F' U' R' F R',8,8,308,1848,1369,1376,dual_table_records,418.88,431.2
+37,8,7,v5,V5 IDA*,True,False,U F' R' F' U' R' F R',8,8,5772,23084,0,8,max_stack_depth,2.83,2647.5
+38,8,8,v2,V2 Unidirectional BFS,False,True,F U' R' U R U F' R,-1,8,1766,10596,7363,7363,hash_table_entries,2774.06,3009.64
+38,8,8,v3,V3 Move-Pruned BFS,False,True,F U' R' U R U F' R,-1,8,2361,11374,10447,10447,composite_visited_entries,5323.67,3018.81
+38,8,8,v4,V4 Bidirectional BFS,True,False,F U' R' U R U F' R,8,8,308,1848,1374,1376,dual_table_records,419.47,455.57
+38,8,8,v5,V5 IDA*,False,True,F U' R' U R U F' R,-1,8,6190,24761,0,8,max_stack_depth,3.36,3000.24
+39,8,9,v2,V2 Unidirectional BFS,False,True,R' U' F' U' F' R' U' F',-1,6,1926,11556,7993,7993,hash_table_entries,3014.03,3009.19
+39,8,9,v3,V3 Move-Pruned BFS,False,True,R' U' F' U' F' R' U' F',-1,6,2342,11283,10366,10366,composite_visited_entries,5280.06,3014.33
+39,8,9,v4,V4 Bidirectional BFS,True,False,R' U' F' U' F' R' U' F',6,6,68,408,307,308,dual_table_records,42.26,75.09
+39,8,9,v5,V5 IDA*,True,False,R' U' F' U' F' R' U' F',8,6,4917,19669,0,8,max_stack_depth,2.83,2332.74
+40,8,10,v2,V2 Unidirectional BFS,False,True,U F' U F' R F R F',-1,8,1879,11274,7812,7812,hash_table_entries,2944.64,3009.7
+40,8,10,v3,V3 Move-Pruned BFS,False,True,U F' U F' R F R F',-1,8,2485,11971,10988,10988,composite_visited_entries,6149.27,3014.6
+40,8,10,v4,V4 Bidirectional BFS,True,False,U F' U F' R F R F',8,8,308,1848,1373,1376,dual_table_records,418.88,422.42
+40,8,10,v5,V5 IDA*,False,True,U F' U F' R F R F',-1,8,6296,25184,0,8,max_stack_depth,2.86,3000.16
+41,10,1,v2,V2 Unidirectional BFS,False,True,F' U' F R F' R U R U F',-1,10,1859,11154,7728,7728,hash_table_entries,2913.44,3006.25
+41,10,1,v3,V3 Move-Pruned BFS,False,True,F' U' F R F' R U R U F',-1,10,2404,11581,10638,10638,composite_visited_entries,5564.45,3018.18
+41,10,1,v4,V4 Bidirectional BFS,True,False,F' U' F R F' R U R U F',10,10,1376,8256,5882,5888,dual_table_records,2792.27,2263.96
+41,10,1,v5,V5 IDA*,False,True,F' U' F R F' R U R U F',-1,10,6327,25309,0,8,max_stack_depth,3.23,3000.12
+42,10,2,v2,V2 Unidirectional BFS,False,True,F R' U F U R F' R U' R,-1,8,1932,11592,8016,8016,hash_table_entries,3021.86,3009.05
+42,10,2,v3,V3 Move-Pruned BFS,False,True,F R' U F U R F' R U' R,-1,8,2466,11879,10902,10902,composite_visited_entries,5562.51,3013.24
+42,10,2,v4,V4 Bidirectional BFS,True,False,F R' U F U R F' R U' R,8,8,308,1848,1372,1376,dual_table_records,418.78,467.83
+42,10,2,v5,V5 IDA*,True,False,F R' U F U R F' R U' R,8,8,2944,11767,0,8,max_stack_depth,2.83,1869.98
+43,10,3,v2,V2 Unidirectional BFS,False,True,F U F' U R' F' U F' U R',-1,10,1805,10830,7514,7514,hash_table_entries,2831.26,3006.22
+43,10,3,v3,V3 Move-Pruned BFS,False,True,F U F' U R' F' U F' U R',-1,10,2206,10627,9776,9776,composite_visited_entries,5040.94,3017.97
+43,10,3,v4,V4 Bidirectional BFS,True,False,F U F' U R' F' U F' U R',10,10,1376,8256,5887,5888,dual_table_records,2792.32,2410.87
+43,10,3,v5,V5 IDA*,False,True,F U F' U R' F' U F' U R',-1,10,6485,25943,0,8,max_stack_depth,3.36,3000.23
+44,10,4,v2,V2 Unidirectional BFS,False,True,R U' F R U R U R F' U',-1,8,1911,11466,7933,7933,hash_table_entries,2990.23,3006.79
+44,10,4,v3,V3 Move-Pruned BFS,False,True,R U' F R U R U R F' U',-1,8,2506,12072,11077,11077,composite_visited_entries,6149.18,3012.92
+44,10,4,v4,V4 Bidirectional BFS,True,False,R U' F R U R U R F' U',8,8,308,1848,1368,1376,dual_table_records,418.78,416.15
+44,10,4,v5,V5 IDA*,False,True,R U' F R U R U R F' U',-1,8,6465,25862,0,8,max_stack_depth,2.83,3000.05
+45,10,5,v2,V2 Unidirectional BFS,False,True,U F' U F R U F U' F U,-1,10,1948,11688,8080,8080,hash_table_entries,3046.5,3009.68
+45,10,5,v3,V3 Move-Pruned BFS,False,True,U F' U F R U F U' F U,-1,10,2358,11359,10432,10432,composite_visited_entries,5315.68,3015.9
+45,10,5,v4,V4 Bidirectional BFS,True,False,U F' U F R U F U' F U,10,10,1376,8256,5886,5888,dual_table_records,2792.32,2274.06
+45,10,5,v5,V5 IDA*,False,True,U F' U F R U F U' F U,-1,10,6445,25781,0,8,max_stack_depth,3.36,3000.08
+46,10,6,v2,V2 Unidirectional BFS,False,True,U F' R U R' F R' F U' R',-1,10,1912,11472,7937,7937,hash_table_entries,2991.73,3007.76
+46,10,6,v3,V3 Move-Pruned BFS,False,True,U F' R U R' F R' F U' R',-1,10,2482,11956,10975,10975,composite_visited_entries,6149.18,3012.9
+46,10,6,v4,V4 Bidirectional BFS,True,False,U F' R U R' F R' F U' R',10,10,1376,8256,5886,5888,dual_table_records,2791.57,1979.73
+46,10,6,v5,V5 IDA*,False,True,U F' R U R' F R' F U' R',-1,10,6401,25610,0,8,max_stack_depth,2.83,3000.15
+47,10,7,v2,V2 Unidirectional BFS,False,True,U' R F U R' U' F' R' U' F,-1,6,1903,11418,7897,7897,hash_table_entries,2976.79,3005.1
+47,10,7,v3,V3 Move-Pruned BFS,False,True,U' R F U R' U' F' R' U' F,-1,6,2281,10988,10099,10099,composite_visited_entries,5140.52,3014.3
+47,10,7,v4,V4 Bidirectional BFS,True,False,U' R F U R' U' F' R' U' F,6,6,68,408,307,308,dual_table_records,42.85,98.73
+47,10,7,v5,V5 IDA*,True,False,U' R F U R' U' F' R' U' F,6,6,634,2532,0,6,max_stack_depth,2.38,298.24
+48,10,8,v2,V2 Unidirectional BFS,False,True,R' F' U R' U R' F R F R,-1,10,1782,10692,7423,7423,hash_table_entries,2796.11,3005.97
+48,10,8,v3,V3 Move-Pruned BFS,False,True,R' F' U R' U R' F R F R,-1,10,2365,11394,10467,10467,composite_visited_entries,5333.74,3008.94
+48,10,8,v4,V4 Bidirectional BFS,True,False,R' F' U R' U R' F R F R,10,10,1376,8256,5886,5888,dual_table_records,2791.73,2049.83
+48,10,8,v5,V5 IDA*,False,True,R' F' U R' U R' F R F R,-1,10,6371,25485,0,8,max_stack_depth,2.92,3000.12
+49,10,9,v2,V2 Unidirectional BFS,False,True,F' R' U' R' U F R U' R F',-1,10,1795,10770,7477,7477,hash_table_entries,2817.29,3005.98
+49,10,9,v3,V3 Move-Pruned BFS,False,True,F' R' U' R' U F R U' R F',-1,10,642,3095,2864,2864,composite_visited_entries,1187.24,3145.42
+49,10,9,v4,V4 Bidirectional BFS,True,False,F' R' U' R' U F R U' R F',10,10,1376,8256,5881,5888,dual_table_records,2791.91,3267.99
+49,10,9,v5,V5 IDA*,False,True,F' R' U' R' U F R U' R F',-1,10,6008,24034,0,8,max_stack_depth,3.36,3000.22
+50,10,10,v2,V2 Unidirectional BFS,False,True,F R' U' F U' R' F R U' F',-1,10,1894,11364,7864,7864,hash_table_entries,2965.0,3007.49
+50,10,10,v3,V3 Move-Pruned BFS,False,True,F R' U' F U' R' F R U' F',-1,10,2428,11697,10744,10744,composite_visited_entries,5619.99,3015.65
+50,10,10,v4,V4 Bidirectional BFS,True,False,F R' U' F U' R' F R U' F',10,10,1376,8256,5885,5888,dual_table_records,2791.57,2035.49
+50,10,10,v5,V5 IDA*,False,True,F R' U' F U' R' F R U' F',-1,10,6300,25204,0,8,max_stack_depth,2.83,3000.22
+51,11,1,v2,V2 Unidirectional BFS,False,True,U' F R F R' U' F' R' U' R' U,-1,9,1862,11172,7739,7739,hash_table_entries,2917.14,3010.72
+51,11,1,v3,V3 Move-Pruned BFS,False,True,U' F R F R' U' F' R' U' R' U,-1,9,2423,11673,10724,10724,composite_visited_entries,5469.45,3019.64
+51,11,1,v4,V4 Bidirectional BFS,True,False,U' F R F R' U' F' R' U' R' U,9,9,842,5052,3625,3632,dual_table_records,1593.91,1188.36
+51,11,1,v5,V5 IDA*,False,True,U' F R F R' U' F' R' U' R' U,-1,9,6407,25630,0,8,max_stack_depth,3.36,3000.07
+52,11,2,v2,V2 Unidirectional BFS,False,True,U' F U F R' F' R' F R' U' F,-1,9,1925,11550,7989,7989,hash_table_entries,3012.14,3008.71
+52,11,2,v3,V3 Move-Pruned BFS,False,True,U' F U F R' F' R' F R' U' F,-1,9,2480,11948,10971,10971,composite_visited_entries,6149.18,3015.54
+52,11,2,v4,V4 Bidirectional BFS,True,False,U' F U F R' F' R' F R' U' F,9,9,842,5052,3631,3632,dual_table_records,1593.26,1056.82
+52,11,2,v5,V5 IDA*,False,True,U' F U F R' F' R' F R' U' F,-1,9,6371,25489,0,8,max_stack_depth,2.83,3000.12
+53,11,3,v2,V2 Unidirectional BFS,False,True,R' U' R F' U' F' U R' U F R,-1,11,1874,11244,7790,7790,hash_table_entries,2936.29,3005.34
+53,11,3,v3,V3 Move-Pruned BFS,False,True,R' U' R F' U' F' U R' U F R,-1,11,2280,10983,10094,10094,composite_visited_entries,5137.81,3012.21
+53,11,3,v4,V4 Bidirectional BFS,True,False,R' U' R F' U' F' U R' U F R,11,11,3632,21792,14839,14857,dual_table_records,7457.02,5539.15
+53,11,3,v5,V5 IDA*,False,True,R' U' R F' U' F' U R' U F R,-1,11,6231,24922,0,8,max_stack_depth,3.36,3000.11
+54,11,4,v2,V2 Unidirectional BFS,True,False,R U F' U' F' U' F' U F U' R',5,5,335,2008,1492,1492,hash_table_entries,317.62,470.36
+54,11,4,v3,V3 Move-Pruned BFS,True,False,R U F' U' F' U' F' U F U' R',5,5,368,1774,1643,1643,composite_visited_entries,521.67,454.55
+54,11,4,v4,V4 Bidirectional BFS,True,False,R U F' U' F' U' F' U F U' R',5,5,41,246,187,188,dual_table_records,26.85,50.84
+54,11,4,v5,V5 IDA*,False,True,R U F' U' F' U' F' U F U' R',-1,5,6502,26010,0,8,max_stack_depth,2.83,3000.06
+55,11,5,v2,V2 Unidirectional BFS,False,True,F U R F U' R' U F U' F U',-1,11,1892,11352,7858,7858,hash_table_entries,2962.78,3008.6
+55,11,5,v3,V3 Move-Pruned BFS,False,True,F U R F U' R' U F U' F U',-1,11,2378,11456,10525,10525,composite_visited_entries,5364.3,3018.88
+55,11,5,v4,V4 Bidirectional BFS,True,False,F U R F U' R' U F U' F U',11,11,3632,21792,14850,14857,dual_table_records,7457.02,5248.91
+55,11,5,v5,V5 IDA*,False,True,F U R F U' R' U F U' F U',-1,11,6371,25487,0,8,max_stack_depth,3.36,3000.08
+56,11,6,v2,V2 Unidirectional BFS,False,True,U' R' U' R U' R U F R' U F',-1,9,1586,9516,6633,6633,hash_table_entries,2495.12,3030.45
+56,11,6,v3,V3 Move-Pruned BFS,False,True,U' R' U' R U' R U F R' U F',-1,9,2310,11129,10226,10226,composite_visited_entries,5206.7,3012.19
+56,11,6,v4,V4 Bidirectional BFS,True,False,U' R' U' R U' R U F R' U F',9,9,842,5052,3631,3632,dual_table_records,1593.2,1024.38
+56,11,6,v5,V5 IDA*,False,True,U' R' U' R U' R U F R' U F',-1,9,6367,25466,0,8,max_stack_depth,2.83,3000.13
+57,11,7,v2,V2 Unidirectional BFS,False,True,F' U' F R U F U' F' R' F' R,-1,7,1870,11220,7774,7774,hash_table_entries,2930.44,3011.28
+57,11,7,v3,V3 Move-Pruned BFS,False,True,F' U' F R U F U' F' R' F' R,-1,7,2302,11090,10195,10195,composite_visited_entries,5191.13,3014.25
+57,11,7,v4,V4 Bidirectional BFS,True,False,F' U' F R U F U' F' R' F' R,7,7,188,1128,841,842,dual_table_records,154.06,225.51
+57,11,7,v5,V5 IDA*,True,False,F' U' F R U F U' F' R' F' R,7,7,1799,7192,0,7,max_stack_depth,2.93,842.36
+58,11,8,v2,V2 Unidirectional BFS,False,True,F' R U F R' U' R U F' U' F',-1,7,1864,11184,7747,7747,hash_table_entries,2919.73,3009.9
+58,11,8,v3,V3 Move-Pruned BFS,False,True,F' R U F R' U' R U F' U' F',-1,7,2403,11576,10633,10633,composite_visited_entries,5421.09,3012.3
+58,11,8,v4,V4 Bidirectional BFS,True,False,F' R U F R' U' R U F' U' F',7,7,188,1128,841,842,dual_table_records,153.47,205.94
+58,11,8,v5,V5 IDA*,True,False,F' R U F R' U' R U F' U' F',7,7,2431,9726,0,7,max_stack_depth,2.45,1144.5
+59,11,9,v2,V2 Unidirectional BFS,False,True,R' U F' R U' R' F U F U' R',-1,11,1933,11598,8019,8019,hash_table_entries,3023.09,3010.75
+59,11,9,v3,V3 Move-Pruned BFS,False,True,R' U F' R U' R' F U F U' R',-1,11,2388,11504,10569,10569,composite_visited_entries,5387.67,3018.98
+59,11,9,v4,V4 Bidirectional BFS,True,False,R' U F' R U' R' F U F U' R',11,11,3632,21792,14849,14857,dual_table_records,7457.02,5252.29
+59,11,9,v5,V5 IDA*,False,True,R' U F' R U' R' F U F U' R',-1,11,6582,26338,0,8,max_stack_depth,3.36,3000.2
+60,11,10,v2,V2 Unidirectional BFS,False,True,F U' R' F' R' U' F R' U' R U,-1,7,1807,10842,7523,7523,hash_table_entries,2834.76,3017.43
+60,11,10,v3,V3 Move-Pruned BFS,False,True,F U' R' F' R' U' F R' U' R U,-1,7,2232,10753,9892,9892,composite_visited_entries,5030.85,3025.28
+60,11,10,v4,V4 Bidirectional BFS,True,False,F U' R' F' R' U' F R' U' R U,7,7,188,1128,841,842,dual_table_records,153.44,226.18
+60,11,10,v5,V5 IDA*,True,False,F U' R' F' R' U' F R' U' R U,7,7,1400,5595,0,7,max_stack_depth,2.45,705.46

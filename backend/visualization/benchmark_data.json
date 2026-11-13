@@ -1,0 +1,210 @@
+{
+  "2": {
+    "v2": {
+      "label": "V2 BFS",
+      "skipped": false,
+      "avg_expanded": 4.666666666666667,
+      "avg_time_ms": 0.6248333180944124,
+      "avg_peak_memory_kb": 3.5572916666666665,
+      "avg_solution_length": 2,
+      "samples": 3
+    },
+    "v3": {
+      "label": "V3 Pruned BFS",
+      "skipped": false,
+      "avg_expanded": 4.666666666666667,
+      "avg_time_ms": 0.39265267938996357,
+      "avg_peak_memory_kb": 3.4739583333333335,
+      "avg_solution_length": 2,
+      "samples": 3
+    },
+    "v4": {
+      "label": "V4 Bidirectional",
+      "skipped": false,
+      "avg_expanded": 2,
+      "avg_time_ms": 0.21234732897331318,
+      "avg_peak_memory_kb": 2.6516927083333335,
+      "avg_solution_length": 2,
+      "samples": 3
+    },
+    "v5": {
+      "label": "V5 IDA*",
+      "skipped": false,
+      "avg_expanded": 3,
+      "avg_time_ms": 0.26447234752898413,
+      "avg_peak_memory_kb": 1.6666666666666667,
+      "avg_solution_length": 2,
+      "samples": 3
+    }
+  },
+  "4": {
+    "v2": {
+      "label": "V2 BFS",
+      "skipped": false,
+      "avg_expanded": 54,
+      "avg_time_ms": 6.998944329097867,
+      "avg_peak_memory_kb": 24.6640625,
+      "avg_solution_length": 4,
+      "samples": 3
+    },
+    "v3": {
+      "label": "V3 Pruned BFS",
+      "skipped": false,
+      "avg_expanded": 45.333333333333336,
+      "avg_time_ms": 3.482958321304371,
+      "avg_peak_memory_kb": 20.697916666666668,
+      "avg_solution_length": 4,
+      "samples": 3
+    },
+    "v4": {
+      "label": "V4 Bidirectional",
+      "skipped": false,
+      "avg_expanded": 14,
+      "avg_time_ms": 1.1582083340423803,
+      "avg_peak_memory_kb": 4.675130208333333,
+      "avg_solution_length": 4,
+      "samples": 3
+    },
+    "v5": {
+      "label": "V5 IDA*",
+      "skipped": false,
+      "avg_expanded": 18,
+      "avg_time_ms": 1.9451390059354405,
+      "avg_peak_memory_kb": 2.0416666666666665,
+      "avg_solution_length": 4,
+      "samples": 3
+    }
+  },
+  "6": {
+    "v2": {
+      "label": "V2 BFS",
+      "skipped": false,
+      "avg_expanded": 1556,
+      "avg_time_ms": 261.4266666932963,
+      "avg_peak_memory_kb": 3042.3333333333335,
+      "avg_solution_length": 6,
+      "samples": 3
+    },
+    "v3": {
+      "label": "V3 Pruned BFS",
+      "skipped": false,
+      "avg_expanded": 1054,
+      "avg_time_ms": 105.89831931671749,
+      "avg_peak_memory_kb": 1571.9739583333333,
+      "avg_solution_length": 6,
+      "samples": 3
+    },
+    "v4": {
+      "label": "V4 Bidirectional",
+      "skipped": false,
+      "avg_expanded": 68,
+      "avg_time_ms": 5.337541670693706,
+      "avg_peak_memory_kb": 14.208984375,
+      "avg_solution_length": 6,
+      "samples": 3
+    },
+    "v5": {
+      "label": "V5 IDA*",
+      "skipped": false,
+      "avg_expanded": 369.6666666666667,
+      "avg_time_ms": 43.10523600239927,
+      "avg_peak_memory_kb": 2.1666666666666665,
+      "avg_solution_length": 6,
+      "samples": 3
+    }
+  },
+  "8": {
+    "v2": {
+      "label": "V2 BFS",
+      "skipped": true,
+      "reason": "O(b^d) explodes at d=8"
+    },
+    "v3": {
+      "label": "V3 Pruned BFS",
+      "skipped": false,
+      "avg_expanded": 12264.333333333334,
+      "avg_time_ms": 1373.0598053274055,
+      "avg_peak_memory_kb": 22636.96875,
+      "avg_solution_length": 8,
+      "samples": 3
+    },
+    "v4": {
+      "label": "V4 Bidirectional",
+      "skipped": false,
+      "avg_expanded": 308,
+      "avg_time_ms": 25.331111003955204,
+      "avg_peak_memory_kb": 223.005859375,
+      "avg_solution_length": 8,
+      "samples": 3
+    },
+    "v5": {
+      "label": "V5 IDA*",
+      "skipped": false,
+      "avg_expanded": 5079,
+      "avg_time_ms": 599.2551526869647,
+      "avg_peak_memory_kb": 2.8515625,
+      "avg_solution_length": 8,
+      "samples": 3
+    }
+  },
+  "10": {
+    "v2": {
+      "label": "V2 BFS",
+      "skipped": true,
+      "reason": "O(b^d) explodes at d=10"
+    },
+    "v3": {
+      "label": "V3 Pruned BFS",
+      "skipped": true,
+      "reason": "O(b^d) explodes at d=10"
+    },
+    "v4": {
+      "label": "V4 Bidirectional",
+      "skipped": false,
+      "avg_expanded": 664,
+      "avg_time_ms": 59.0648886670048,
+      "avg_peak_memory_kb": 793.787109375,
+      "avg_solution_length": 8.666666666666666,
+      "samples": 3
+    },
+    "v5": {
+      "label": "V5 IDA*",
+      "skipped": false,
+      "avg_expanded": 27234.666666666668,
+      "avg_time_ms": 3255.8282500249334,
+      "avg_peak_memory_kb": 2.9088541666666665,
+      "avg_solution_length": 8.666666666666666,
+      "samples": 3
+    }
+  },
+  "11": {
+    "v2": {
+      "label": "V2 BFS",
+      "skipped": true,
+      "reason": "O(b^d) explodes at d=11"
+    },
+    "v3": {
+      "label": "V3 Pruned BFS",
+      "skipped": true,
+      "reason": "O(b^d) explodes at d=11"
+    },
+    "v4": {
+      "label": "V4 Bidirectional",
+      "skipped": false,
+      "avg_expanded": 2702,
+      "avg_time_ms": 252.01416667550802,
+      "avg_peak_memory_kb": 3943.4069010416665,
+      "avg_solution_length": 10.333333333333334,
+      "samples": 3
+    },
+    "v5": {
+      "label": "V5 IDA*",
+      "skipped": false,
+      "avg_expanded": 33764,
+      "avg_time_ms": 4022.509083035402,
+      "avg_peak_memory_kb": 2.890625,
+      "avg_solution_length": 9,
+      "samples": 1
+    }
+  }
+}
